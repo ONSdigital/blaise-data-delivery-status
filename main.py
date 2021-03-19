@@ -36,8 +36,8 @@ def update(dd_filename):
     if dd_status is None:
         abort(404)
 
-    dd_status['state'] = state
-    dd_status['updated_timestamp'] = str(datetime.now())
+    dd_status["state"] = state
+    dd_status["updated_timestamp"] = str(datetime.now())
 
     super_generic_database.set(dd_filename, json.dumps(dd_status))
     return "update", 200

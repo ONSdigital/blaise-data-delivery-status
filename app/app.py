@@ -1,6 +1,8 @@
 import json
 import os
+from datetime import datetime
 
+import pytz
 import redis
 from flask import Flask, request
 
@@ -20,7 +22,8 @@ def create_state_record(dd_filename):
     batch = state_request.get("batch")
     if state is None or batch is None:
         return 400, "Request did not include 'state' or 'batch'"
-    state_record = {"state": state}
+    updated_at = datetime.now(pytz.utc).replace(microsecond=0).isoformat()
+    state_record = {"state": state, "updated_at": updated_at}
     app.redis_client.set(dd_filename, json.dumps(state_record))
     app.redis_client.sadd(f"batch:{batch}", dd_filename)
     return state_record

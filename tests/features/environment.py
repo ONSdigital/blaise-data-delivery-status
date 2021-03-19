@@ -15,3 +15,8 @@ def flaskr_client(context, *args, **kwargs):
 
 def before_scenario(context, _scenario):
     use_fixture(flaskr_client, context)
+
+
+def after_secerio(context, _scenario):
+    if context.freezer:
+        context.freezer.stop()
