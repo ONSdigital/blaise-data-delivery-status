@@ -17,3 +17,7 @@ Feature: Create state records
     And the set "10032021_1130" should contain:
       | key             |
       | dd_filename.txt |
+    And the response should contain:
+      """
+      bantz
+      """
