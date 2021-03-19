@@ -13,7 +13,7 @@ def step_impl(context):
         value = context.redis_client.get(row["key"])
         assert (
             value.decode("utf-8") == row["value"]
-        ), f"Value should have been: '{row['value']}' but was '{value}'"
+        ), f"Value should have been: '{row['value']}' but was '{value.decode('utf-8')}'"
 
 
 @then('the set "{set}" should contain')
