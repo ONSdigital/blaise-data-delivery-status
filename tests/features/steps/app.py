@@ -10,6 +10,7 @@ def step_impl(context, path):
         path, data=context.text, content_type="application/json"
     )
     context.response = response.get_json()
+    context.response_status_code = response.status_code
 
 
 @then("the response should be")
@@ -30,11 +31,11 @@ def step_impl(context, path):
     response = context.client.post(
         path, content_type="application/json"
     )
-    context.response_code = response.status_code
+    context.response_status_code = response.status_code
 
 
 @then('the response code should be "{status_code}"')
 def step_impl(context, status_code):
     assert (
-            context.response_code == int(status_code)
-    ), f"Response code {context.response_code} did not match expected value: {status_code}"
+            context.response_status_code == int(status_code)
+    ), f"Response code {context.response_status_code} did not match expected value: {status_code}"

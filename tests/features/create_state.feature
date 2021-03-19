@@ -31,3 +31,20 @@ Feature: Create state records
     And the current time is "2021-03-19 12:45:20"
     When I POST to "/v1/state/dd_filename.txt" without a payload
     Then the response code should be "400"
+
+
+#    Given redis contains:
+#      | key             | value                                                            |
+#      | dd_filename.txt | {"state": "starting", "updated_at": "2021-03-19T12:45:20+00:00"} |
+#    And the current time is "2021-03-20 19:45:20"
+#    When I POST to "/v1/state/dd_filename.txt" with the payload:
+#      """
+#      {
+#        "state": "starting",
+#        "batch": "10032021_1130"
+#      }
+#      """
+#    Then redis should contain:
+#      | key             | value                                                            |
+#      | dd_filename.txt | {"state": "starting", "updated_at": "2021-03-19T12:45:20+00:00"} |
+#    Then the response code should be "400"
