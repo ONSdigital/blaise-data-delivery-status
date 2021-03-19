@@ -16,6 +16,25 @@ def init_redis():
     app.redis_client = redis.Redis(host=redis_host, port=redis_port, db=0)
 
 
+@app.route("/v1/batch", methods=["GET"])
+def get_batches():
+    batch = []
+    for key in app.redis_client.scan_iter(f"batch:*"):
+        batch.append(key.decode('utf-8'))
+    return jsonify(batch), 200
+
+
+@app.route("/v1/batch/<batch_name>", methods=["GET"])
+def get_batch(batch_name):
+    batch = []
+    for key in app.redis_client.sscan_iter(f"batch:{batch_name}"):
+        batch.append(json.loads(app.redis_client.get(key.decode('utf-8'))))
+
+    if len(batch) is 0:
+        return api_error("Batch does not exist", 404)
+    return jsonify(batch), 200
+
+
 @app.route("/v1/state/<dd_filename>", methods=["GET"])
 def get_state_record(dd_filename):
     state_record = app.redis_client.get(dd_filename)
@@ -76,3 +95,8 @@ def api_error(message, status_code=400):
 
 def updated_at():
     return datetime.now(pytz.utc).replace(microsecond=0).isoformat()
+
+
+if __name__ == "__main__":
+    init_redis()
+    app.run(host="0.0.0.0", port=5008)
