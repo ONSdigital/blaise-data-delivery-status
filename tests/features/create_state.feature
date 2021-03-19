@@ -25,3 +25,9 @@ Feature: Create state records
         "updated_at": "2021-03-19T12:45:20+00:00"
       }
       """
+
+    Given redis contains:
+      | key | value |
+    And the current time is "2021-03-19 12:45:20"
+    When I POST to "/v1/state/dd_filename.txt" without a payload
+    Then the response code should be "400"
