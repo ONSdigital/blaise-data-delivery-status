@@ -36,11 +36,11 @@ def update(dd_filename):
     if dd_status is None:
         abort(404)
 
-    dd_status.state = state
-    dd_status.updated_timestamp = str(datetime.now())
+    dd_status['state'] = state
+    dd_status['updated_timestamp'] = str(datetime.now())
 
     super_generic_database.set(dd_filename, json.dumps(dd_status))
-    return "saved", 200
+    return "update", 200
 
 
 @app.route("/state/<instrument_name>", methods=['GET'])

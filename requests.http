@@ -2,13 +2,12 @@
 POST http://localhost:5007/state/OPN2004A
 Content-Type: application/x-www-form-urlencoded
 
-state=failed yeah
-created
+state=failed yeah&created=now
 ### Update record
 PATCH http://localhost:5007/state/OPN2004A
 Content-Type: application/x-www-form-urlencoded
 
-state=failed yeah
+state=failed on the next step
 
 ### Get Record
 GET localhost:5007/state/OPN2004A
