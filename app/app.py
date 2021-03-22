@@ -20,7 +20,7 @@ def init_redis():
 def get_batches():
     batch = []
     for key in app.redis_client.scan_iter(f"batch:*"):
-        batch.append(key.decode('utf-8'))
+        batch.append(key.decode('utf-8').replace("batch:", "", 1))
     return jsonify(batch), 200
 
 
