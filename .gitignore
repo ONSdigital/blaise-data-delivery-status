@@ -3,3 +3,5 @@
 /.git
 __pycache__
 .vscode
+/requirements.txt
+app.yaml

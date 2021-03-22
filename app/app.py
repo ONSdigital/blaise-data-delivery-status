@@ -97,6 +97,4 @@ def updated_at():
     return datetime.now(pytz.utc).replace(microsecond=0).isoformat()
 
 
-if __name__ == "__main__":
-    init_redis()
-    app.run(host="0.0.0.0", port=5008)
+init_redis()
