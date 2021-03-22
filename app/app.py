@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 def init_redis():
     redis_host = os.getenv("REDIS_HOST", "localhost")
-    redis_port = os.getenv("REDIS_PORT", "6379")
+    redis_port = os.getenv("REDIS_PORT", "55001")
     app.redis_client = redis.Redis(host=redis_host, port=redis_port, db=0)
 
 
@@ -82,6 +82,12 @@ def update_state_record(dd_filename):
     state_record["state"] = state
     app.redis_client.set(dd_filename, json.dumps(state_record))
     return state_record
+
+
+@app.route("/_ah/stop")
+def instance_shutdown():
+    print("Instance shutdown request closing redis_client connection")
+    app.redis_client.close()
 
 
 @app.errorhandler(BadRequest)
