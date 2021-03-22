@@ -88,6 +88,7 @@ def update_state_record(dd_filename):
 def instance_shutdown():
     print("Instance shutdown request closing redis_client connection")
     app.redis_client.close()
+    return "", 200
 
 
 @app.errorhandler(BadRequest)
