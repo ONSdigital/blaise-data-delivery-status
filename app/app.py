@@ -10,7 +10,7 @@ from werkzeug.exceptions import BadRequest
 app = Flask(__name__)
 
 
-def init_redis():
+def init_redis(app):
     redis_host = os.getenv("REDIS_HOST", "localhost")
     redis_port = os.getenv("REDIS_PORT", "6379")
     app.redis_client = redis.Redis(host=redis_host, port=redis_port, db=0)
@@ -102,6 +102,3 @@ def api_error(message, status_code=400):
 
 def updated_at():
     return datetime.now(pytz.utc).replace(microsecond=0).isoformat()
-
-
-init_redis()
