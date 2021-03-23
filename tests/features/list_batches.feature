@@ -21,3 +21,16 @@ Feature: Get list of all batches
         "10032022_8888"
       ]
       """
+
+  Scenario: No batches exist
+
+    Given redis contains:
+      | key | value |
+    And the redis set "10032021_1130" contains:
+      | key |
+    When I GET "/v1/batch"
+    Then the response code should be "200"
+    And the response should be:
+      """
+      []
+      """
