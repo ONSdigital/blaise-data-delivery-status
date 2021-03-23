@@ -19,8 +19,8 @@ def init_redis():
 @app.route("/v1/batch", methods=["GET"])
 def get_batches():
     batch = []
-    for key in app.redis_client.scan_iter(f"batch:*"):
-        batch.append(key.decode('utf-8').replace("batch:", "", 1))
+    for key in app.redis_client.scan_iter("batch:*"):
+        batch.append(key.decode("utf-8").replace("batch:", "", 1))
     return jsonify(batch), 200
 
 
@@ -28,9 +28,9 @@ def get_batches():
 def get_batch(batch_name):
     batch = []
     for key in app.redis_client.sscan_iter(f"batch:{batch_name}"):
-        batch.append(json.loads(app.redis_client.get(key.decode('utf-8'))))
+        batch.append(json.loads(app.redis_client.get(key.decode("utf-8"))))
 
-    if len(batch) is 0:
+    if len(batch) == 0:
         return api_error("Batch does not exist", 404)
     return jsonify(batch), 200
 

@@ -13,7 +13,14 @@ Feature: Get batch details
     Then the response code should be "200"
     And the response should be:
       """
-      [{"batch": "10032021_1130", "dd_filename": "dd_filename.txt", "state": "starting", "updated_at": "2021-03-19T12:45:20+00:00"}]
+      [
+        {
+          "batch": "10032021_1130",
+          "dd_filename": "dd_filename.txt",
+          "state": "starting",
+          "updated_at": "2021-03-19T12:45:20+00:00"
+        }
+      ]
       """
 
 
