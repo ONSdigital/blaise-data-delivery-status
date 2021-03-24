@@ -48,8 +48,9 @@ def create_state_record(dd_filename):
     state_request = request.json
     state = state_request.get("state")
     batch = state_request.get("batch")
-    if state is None or batch is None:
-        return api_error("Request did not include 'state' or 'batch'")
+    service_name = state_request.get("service_name")
+    if state is None or batch is None or service_name is None:
+        return api_error("Request did not include 'state' or 'batch' or 'service_name'")
     if app.redis_client.get(dd_filename) is not None:
         return api_error("Resource already exists", 409)
     state_record = {
@@ -57,6 +58,7 @@ def create_state_record(dd_filename):
         "updated_at": updated_at(),
         "dd_filename": dd_filename,
         "batch": batch,
+        "service_name": service_name
     }
     app.redis_client.set(dd_filename, json.dumps(state_record))
     app.redis_client.sadd(f"batch:{batch}", dd_filename)
@@ -67,8 +69,9 @@ def create_state_record(dd_filename):
 def update_state_record(dd_filename):
     state_request = request.json
     state = state_request.get("state")
-    if state is None:
-        return api_error("Request did not include 'state'")
+    service_name = state_request.get("service_name")
+    if state is None or service_name is None:
+        return api_error("Request did not include 'state' or 'service_name'")
 
     state_record = app.redis_client.get(dd_filename)
     if state_record is None:
@@ -80,6 +83,7 @@ def update_state_record(dd_filename):
 
     state_record["updated_at"] = updated_at()
     state_record["state"] = state
+    state_record["service_name"] = service_name
     app.redis_client.set(dd_filename, json.dumps(state_record))
     return state_record
 

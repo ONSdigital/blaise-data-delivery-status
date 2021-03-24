@@ -9,12 +9,13 @@ Feature: Create state records
       """
       {
         "state": "starting",
-        "batch": "10032021_1130"
+        "batch": "10032021_1130",
+        "service_name": "data delivery"
       }
       """
     Then redis should contain:
       | key             | value                                                                                                                        |
-      | dd_filename.txt | {"state": "starting", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130"} |
+      | dd_filename.txt | {"state": "starting", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "service_name": "data delivery"} |
     And the set "10032021_1130" should contain:
       | key             |
       | dd_filename.txt |
@@ -25,7 +26,8 @@ Feature: Create state records
         "state": "starting",
         "updated_at": "2021-03-19T12:45:20+00:00",
         "dd_filename": "dd_filename.txt",
-        "batch": "10032021_1130"
+        "batch": "10032021_1130",
+        "service_name": "data delivery"
       }
       """
 
@@ -60,7 +62,7 @@ Feature: Create state records
     And the response should be:
       """
       {
-        "error": "Request did not include 'state' or 'batch'"
+        "error": "Request did not include 'state' or 'batch' or 'service_name'"
       }
       """
 
@@ -73,7 +75,8 @@ Feature: Create state records
     When I POST to "/v1/state/dd_filename.txt" with the payload:
       """
       {
-        "state": "starting"
+        "state": "starting",
+        "service_name": "data delivery"
       }
       """
     Then redis should contain:
@@ -82,7 +85,7 @@ Feature: Create state records
     And the response should be:
       """
       {
-        "error": "Request did not include 'state' or 'batch'"
+        "error": "Request did not include 'state' or 'batch' or 'service_name'"
       }
       """
 
@@ -94,7 +97,8 @@ Feature: Create state records
     When I POST to "/v1/state/dd_filename.txt" with the payload:
       """
       {
-        "batch": "10032021_1130"
+        "batch": "10032021_1130",
+        "service_name": "data delivery"
       }
       """
     Then redis should contain:
@@ -103,7 +107,29 @@ Feature: Create state records
     And the response should be:
       """
       {
-        "error": "Request did not include 'state' or 'batch'"
+        "error": "Request did not include 'state' or 'batch' or 'service_name'"
+      }
+      """
+
+      Scenario: I cannot create a state record without a service name
+
+    Given redis contains:
+      | key | value |
+    And the current time is "2021-03-19 12:45:20"
+    When I POST to "/v1/state/dd_filename.txt" with the payload:
+      """
+      {
+        "batch": "10032021_1130",
+        "state": "starting"
+      }
+      """
+    Then redis should contain:
+      | key | value |
+    And the response code should be "400"
+    And the response should be:
+      """
+      {
+        "error": "Request did not include 'state' or 'batch' or 'service_name'"
       }
       """
 
@@ -117,7 +143,8 @@ Feature: Create state records
       """
       {
         "state": "starting",
-        "batch": "10032021_1130"
+        "batch": "10032021_1130",
+        "service_name": "data delivery"
       }
       """
     Then redis should contain:
