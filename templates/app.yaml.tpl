@@ -1,4 +1,4 @@
-service: blaise-data-delivery-status
+service: data-delivery-status
 runtime: python37
 
 env_variables:
