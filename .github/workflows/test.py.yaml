@@ -1,9 +1,10 @@
-name: coverage
+name: Test coverage report 
 
 on:
+  pull_request:
+    branches: [ main ]
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   codecov:
@@ -32,8 +33,8 @@ jobs:
       #----------------------------------------------
       #    run test suite and output coverage file   
       #----------------------------------------------
-    - name: Test with pytest
-      run: poetry run python -m behave tests/features
+    - name: Test with behave
+      run: poetry run python -m coverage run --source='.' -m behave tests/features -o coverage.xml
       #----------------------------------------------
       #             upload coverage stats              
       # (requires CODECOV_TOKEN in repository secrets)   
@@ -41,5 +42,6 @@ jobs:
     - name: Upload coverage
       uses: codecov/codecov-action@v1
       with:
+        token: ${{ secrets.CODECOV_TOKEN }}
         file: ./coverage.xml
         fail_ci_if_error: true
