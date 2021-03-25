@@ -2,7 +2,7 @@ import json
 
 from flask import Blueprint, current_app, request
 
-from app.utils import api_error, updated_at
+from app.utils import api_error, state_error, state_is_valid, updated_at
 
 state = Blueprint("state", __name__, url_prefix="/v1/state")
 
@@ -23,6 +23,8 @@ def create_state_record(dd_filename):
     error_info = state_request.get("error_info")
     if state is None or batch is None:
         return api_error("Request did not include 'state' or 'batch'")
+    if not state_is_valid(state):
+        return state_error(state)
     if state != "errored" and error_info is not None:
         return api_error("You can only provide 'error_info' if the state is 'errored'")
     if current_app.redis_client.get(dd_filename) is not None:
@@ -47,6 +49,10 @@ def update_state_record(dd_filename):
     error_info = state_request.get("error_info")
     if state is None:
         return api_error("Request did not include 'state'")
+
+    if not state_is_valid(state):
+        return state_error(state)
+
     if state != "errored" and error_info is not None:
         return api_error("You can only provide 'error_info' if the state is 'errored'")
 
