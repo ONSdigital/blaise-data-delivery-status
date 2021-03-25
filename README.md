@@ -27,7 +27,7 @@ details about what has errored.
 
 ## Endpoints
 
-[Get all states in a batch](#Get all states in a batch)
+[Get all states in a batch](#get-all-states-in-a-batch)
 
 ### Create state
 
