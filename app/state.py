@@ -2,7 +2,7 @@ import json
 
 from flask import Blueprint, current_app, request
 
-from app.utils import api_error, state_error, state_is_valid, updated_at
+from app.utils import STATES, api_error, state_error, state_is_valid, updated_at
 
 state = Blueprint("state", __name__, url_prefix="/v1/state")
 
@@ -70,3 +70,8 @@ def update_state_record(dd_filename):
         state_record["error_info"] = error_info
     current_app.redis_client.set(dd_filename, json.dumps(state_record))
     return state_record
+
+
+@state.route("/descriptions", methods=["GET"])
+def get_state_descriptions():
+    return STATES
