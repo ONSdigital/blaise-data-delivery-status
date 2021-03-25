@@ -32,8 +32,8 @@ jobs:
       #----------------------------------------------
       #    run test suite and output coverage file   
       #----------------------------------------------
-    - name: Test with pytest
-      run: coverage run --source='.' -m behave tests/features
+    - name: Test with behave
+      run: poetry run python -m coverage run --source='.' -m behave tests/features
       #----------------------------------------------
       #             upload coverage stats              
       # (requires CODECOV_TOKEN in repository secrets)   
