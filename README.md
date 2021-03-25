@@ -23,22 +23,24 @@ any consumers of this API to flag it as an isue.
 **Note**: If you update the state to `errored` you should also update the record with `error_info` to give any consumers
 details about what has errored.
 
-| State         | Description                                                                    |
-|---------------|--------------------------------------------------------------------------------|
-| started       | The data delivery process has found an instrument with active survey days      |
-| generated     | The data delivery process has generated the required files                     |
-| in_staging    | The data delivery files have been copied to the staging bucket                 |
-| encrypted     | The data delivery files have been encrypted and are ready for NiFi             |
-| nifi_notified | NiFi has been notified that we have files to ingest                            |
-| in_arc        | NiFi has copied the files to ARC (on prem) and sent a receipt                  |
-| errored       | An error has occured processing the file (error receipt from NiFi for example) |
+| State          | Description                                                                                                              |
+|----------------|--------------------------------------------------------------------------------------------------------------------------|
+| inactive       | The data delivery instrument has no active survey days, we will note geneate a data delivery file, we should never alert |
+| started        | The data delivery process has found an instrument with active survey days                                                |
+| generated      | The data delivery process has generated the required files                                                               |
+| in_staging     | The data delivery files have been copied to the staging bucket                                                           |
+| encrypted      | The data delivery files have been encrypted and are ready for NiFi                                                       |
+| in_nifi_bucket | The data delivery files are in the NiFi bucket                                                                           |
+| nifi_notified  | NiFi has been notified that we have files to ingest                                                                      |
+| in_arc         | NiFi has copied the files to ARC (on prem) and sent a receipt                                                            |
+| errored        | An error has occured processing the file (error receipt from NiFi for example)                                           |
 
 ## Endpoints
 
- - [Create state](#create-state)
- - [Update state](#update-state)
- - [Get all batches](#get-all-batches)
- - [Get all states in a batch](#get-all-states-in-a-batch)
+- [Create state](#create-state)
+- [Update state](#update-state)
+- [Get all batches](#get-all-batches)
+- [Get all states in a batch](#get-all-states-in-a-batch)
 
 ### Create state
 
@@ -86,10 +88,10 @@ This can only used to update an existing state record.
 
 **Required Parameters**:
 
-| Name         | Description                                                                                                                                                                                                                           |
-|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| state        | The updated state of record.                                                                                                                                                           |
-| error_info   | This parameter is **required** when the state is `errored`, any other state **will not allow** this parameter. Provide additional information for what part of the process has failed. |
+| Name       | Description                                                                                                                                                                            |
+|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| state      | The updated state of record.                                                                                                                                                           |
+| error_info | This parameter is **required** when the state is `errored`, any other state **will not allow** this parameter. Provide additional information for what part of the process has failed. |
 
 **Request**:
 
