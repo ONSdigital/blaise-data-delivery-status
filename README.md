@@ -1,5 +1,13 @@
 # Blaise Data Delivery Status
 
+[![codecov](https://codecov.io/gh/ONSdigital/blaise-data-delivery-status/branch/main/graph/badge.svg)](https://codecov.io/gh/ONSdigital/blaise-data-delivery-status)
+[![CI status](https://github.com/ONSdigital/blaise-data-delivery-status/workflows/Test%20coverage%20report/badge.svg)](https://github.com/ONSdigital/blaise-data-delivery-status/workflows/Test%20coverage%20report/badge.svg)
+<img src="https://img.shields.io/github/release/ONSdigital/blaise-data-delivery-status.svg?style=flat-square" alt="Nisra Case Mover release verison">
+[![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/ONSdigital/blaise-data-delivery-status.svg)](https://github.com/ONSdigital/blaise-data-delivery-status/pulls)
+[![Github last commit](https://img.shields.io/github/last-commit/ONSdigital/blaise-data-delivery-status.svg)](https://github.com/ONSdigital/blaise-data-delivery-status/commits)
+[![Github contributors](https://img.shields.io/github/contributors/ONSdigital/blaise-data-delivery-status.svg)](https://github.com/ONSdigital/blaise-data-delivery-status/graphs/contributors)
+
+
 A simple API that can be used to track the status of a data delivery process
 
 ## States
