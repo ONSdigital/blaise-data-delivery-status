@@ -1,0 +1,64 @@
+# Blaise Data Delivery Status
+
+A simple API that can be used to track the status of a data delivery process
+
+## States
+
+**Note**: The latest state we can currently get is `in_arc` we do not call this `finished` because there is still
+some processing that needs to happen in NiFi to copy the files to the final destination. At present we have no way of
+knowing if this has happened. If a data delivery file is in the `in_arc` state we can assume that we need to contact
+CATD for more insight if any issues are reported.
+
+**Note**: If we do not receive a receipt within 30 minutes of a message being in the `nifi_notified` state, we expect
+any consumers of this API to flag it as an isue.
+
+| State         | Description                                                               |
+|---------------|---------------------------------------------------------------------------|
+| started       | The data delivery process has found an instrument with active survey days |
+| generated     | The data delivery process has generated the required files                |
+| in_staging    | The data delivery files have been copied to the staging bucket            |
+| encrypted     | The data delivery files have been encrypted and are ready for NiFi        |
+| nifi_notified | NiFi has been notified that we have files to ingest                       |
+| in_arc        | NiFi has copied the files to ARC (on prem) and sent a receipt             |
+
+## Endpoints
+
+### Create state
+
+This can only be run to create a new state record, it is expected you would do this in the `started` state.
+
+**Required Parameteres**:
+
+| Name         | Description                                                                                                                                                                                                                           |
+|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| state        | The initial state of record, usually `started`                                                                                                                                                                                        |
+| batch        | What batch is the record part of, this should relate to a scheduled "run" of data delivery, for OPN this would typically be the date followed by 1130, or 230, we use this to return all data delivery files for a paricular schedule |
+| service_name | The name of the service that updated the state                                                                                                                                                                                        |
+
+**Request**:
+
+```sh
+curl localhost:5008/v1/state/dd_filename.txt \
+ -X POST \
+  -H "Content-type: application/json" \
+  -d '{
+    "state": "starting",
+    "batch": "10032021_1130",
+    "service_name": "data delivery"
+  }'
+```
+
+**Response**:
+
+```http
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+  "state": "starting",
+  "updated_at": "2021-03-19T12:45:20+00:00",
+  "dd_filename": "dd_filename.txt",
+  "batch": "10032021_1130",
+  "service_name": "data delivery"
+}
+```

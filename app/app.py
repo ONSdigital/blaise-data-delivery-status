@@ -58,11 +58,11 @@ def create_state_record(dd_filename):
         "updated_at": updated_at(),
         "dd_filename": dd_filename,
         "batch": batch,
-        "service_name": service_name
+        "service_name": service_name,
     }
     app.redis_client.set(dd_filename, json.dumps(state_record))
     app.redis_client.sadd(f"batch:{batch}", dd_filename)
-    return state_record
+    return state_record, 201
 
 
 @app.route("/v1/state/<dd_filename>", methods=["PATCH"])

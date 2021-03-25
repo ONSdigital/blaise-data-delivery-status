@@ -14,12 +14,12 @@ Feature: Create state records
       }
       """
     Then redis should contain:
-      | key             | value                                                                                                                        |
+      | key             | value                                                                                                                                                         |
       | dd_filename.txt | {"state": "starting", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "service_name": "data delivery"} |
     And the set "10032021_1130" should contain:
       | key             |
       | dd_filename.txt |
-    And the response code should be "200"
+    And the response code should be "201"
     And the response should be:
       """
       {
@@ -111,7 +111,7 @@ Feature: Create state records
       }
       """
 
-      Scenario: I cannot create a state record without a service name
+  Scenario: I cannot create a state record without a service name
 
     Given redis contains:
       | key | value |
