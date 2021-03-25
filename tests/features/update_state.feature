@@ -4,18 +4,17 @@ Feature: Update state records
 
     Given redis contains:
       | key             | value                                                                                                                        |
-      | dd_filename.txt | {"state": "starting", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "service_name": "data delivery"} |
+      | dd_filename.txt | {"state": "starting", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130"} |
     And the current time is "2021-03-20 19:45:20"
     When I PATCH to "/v1/state/dd_filename.txt" with the payload:
       """
       {
-        "state": "finished",
-        "service_name": "nifi encrypt"
+        "state": "finished"
       }
       """
     Then redis should contain:
       | key             | value                                                                                                                        |
-      | dd_filename.txt | {"state": "finished", "updated_at": "2021-03-20T19:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "service_name": "nifi encrypt"} |
+      | dd_filename.txt | {"state": "finished", "updated_at": "2021-03-20T19:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130"} |
     Then the response code should be "200"
     And the response should be:
       """
@@ -23,8 +22,54 @@ Feature: Update state records
         "state": "finished",
         "updated_at": "2021-03-20T19:45:20+00:00",
         "dd_filename": "dd_filename.txt",
+        "batch": "10032021_1130"
+      }
+      """
+
+  Scenario: If I set the state to errored I can provide error_info
+    Given redis contains:
+      | key             | value                                                                                                                        |
+      | dd_filename.txt | {"state": "starting", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130"} |
+    And the current time is "2021-03-20 19:45:20"
+    When I PATCH to "/v1/state/dd_filename.txt" with the payload:
+      """
+      {
+        "state": "errored",
+        "error_info": "It exploded real bad"
+      }
+      """
+    Then redis should contain:
+      | key             | value                                                                                                                                                             |
+      | dd_filename.txt | {"state": "errored", "updated_at": "2021-03-20T19:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "error_info": "It exploded real bad"} |
+    And the response code should be "200"
+    And the response should be:
+      """
+      {
+        "state": "errored",
+        "updated_at": "2021-03-20T19:45:20+00:00",
+        "dd_filename": "dd_filename.txt",
         "batch": "10032021_1130",
-        "service_name": "nifi encrypt"
+        "error_info": "It exploded real bad"
+      }
+      """
+
+  Scenario: If I set the state to anything other than errrored I cannot provide error_info
+    Given redis contains:
+      | key | value |
+    When I PATCH to "/v1/state/dd_filename.txt" with the payload:
+      """
+      {
+        "state": "started",
+        "error_info": "It exploded real bad"
+      }
+      """
+    Then redis should contain:
+      | key | value |
+    And the response code should be "400"
+    And the response should be:
+      """
+      {
+        "error": "You can only provide 'error_info' if the state is 'errored'"
       }
       """
 
@@ -37,8 +82,7 @@ Feature: Update state records
     When I PATCH to "/v1/state/dd_filename.txt" with the payload:
       """
       {
-        "state": "starting",
-        "service_name": "data delivery"
+        "state": "starting"
       }
       """
     Then redis should contain:
@@ -69,53 +113,7 @@ Feature: Update state records
     And the response should be:
       """
       {
-        "error": "Request did not include 'state' or 'service_name'"
-      }
-      """
-
-  Scenario: I cannot update a state record if the no state value is provided
-
-    Given redis contains:
-      | key             | value                                                                                                                        |
-      | dd_filename.txt | {"state": "starting", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130"} |
-    And the current time is "2021-03-20 19:45:20"
-    When I PATCH to "/v1/state/dd_filename.txt" with the payload:
-      """
-      {
-      "service_name": "data delivery"
-      }
-      """
-    Then redis should contain:
-      | key             | value                                                                                                                        |
-      | dd_filename.txt | {"state": "starting", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130"} |
-    Then the response code should be "400"
-    And the response should be:
-      """
-      {
-        "error": "Request did not include 'state' or 'service_name'"
-      }
-      """
-
-  Scenario: I cannot update a state record if the no service_name value is provided
-
-    Given redis contains:
-      | key             | value                                                                                                                        |
-      | dd_filename.txt | {"state": "starting", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "service_name": "data delivery"} |
-    And the current time is "2021-03-20 19:45:20"
-    When I PATCH to "/v1/state/dd_filename.txt" with the payload:
-      """
-      {
-        "state": "something happened"
-      }
-      """
-    Then redis should contain:
-      | key             | value                                                                                                                        |
-      | dd_filename.txt | {"state": "starting", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "service_name": "data delivery"} |
-    Then the response code should be "400"
-    And the response should be:
-      """
-      {
-        "error": "Request did not include 'state' or 'service_name'"
+        "error": "Request did not include 'state'"
       }
       """
 
@@ -127,8 +125,7 @@ Feature: Update state records
     When I PATCH to "/v1/state/dd_filename.txt" with the payload:
       """
       {
-        "state": "finished",
-        "service_name": "data delivery"
+        "state": "finished"
       }
       """
     Then redis should contain:

@@ -12,14 +12,18 @@ CATD for more insight if any issues are reported.
 **Note**: If we do not receive a receipt within 30 minutes of a message being in the `nifi_notified` state, we expect
 any consumers of this API to flag it as an isue.
 
-| State         | Description                                                               |
-|---------------|---------------------------------------------------------------------------|
-| started       | The data delivery process has found an instrument with active survey days |
-| generated     | The data delivery process has generated the required files                |
-| in_staging    | The data delivery files have been copied to the staging bucket            |
-| encrypted     | The data delivery files have been encrypted and are ready for NiFi        |
-| nifi_notified | NiFi has been notified that we have files to ingest                       |
-| in_arc        | NiFi has copied the files to ARC (on prem) and sent a receipt             |
+**Note**: If you update the state to `errored` you should also update the record with `error_info` to give any consumers
+details about what has errored.
+
+| State         | Description                                                                    |
+|---------------|--------------------------------------------------------------------------------|
+| started       | The data delivery process has found an instrument with active survey days      |
+| generated     | The data delivery process has generated the required files                     |
+| in_staging    | The data delivery files have been copied to the staging bucket                 |
+| encrypted     | The data delivery files have been encrypted and are ready for NiFi             |
+| nifi_notified | NiFi has been notified that we have files to ingest                            |
+| in_arc        | NiFi has copied the files to ARC (on prem) and sent a receipt                  |
+| errored       | An error has occured processing the file (error receipt from NiFi for example) |
 
 ## Endpoints
 
