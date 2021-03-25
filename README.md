@@ -27,11 +27,13 @@ details about what has errored.
 
 ## Endpoints
 
+[Get all states in a batch](#Get all states in a batch)
+
 ### Create state
 
 This can only be run to create a new state record, it is expected you would do this in the `started` state.
 
-**Required Parameteres**:
+**Required Parameters**:
 
 | Name         | Description                                                                                                                                                                                                                           |
 |--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -65,4 +67,100 @@ Content-Type: application/json
   "batch": "10032021_1130",
   "service_name": "data delivery"
 }
+```
+
+### Update state
+
+This can only used to update an existing state record.
+
+**Required Parameters**:
+
+| Name         | Description                                                                                                                                                                                                                           |
+|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| state        | The updated state of record.                                                                                                                                                           |
+| error_info   | This parameter is **required** when the state is `errored`, any other state **will not allow** this parameter. Provide additional information for what part of the process has failed. |
+
+**Request**:
+
+```sh
+curl localhost:5008/v1/state/dd_filename.txt \
+ -X PATCH \
+  -H "Content-type: application/json" \
+  -d '{
+    "state": "in_staging"
+  }'
+```
+
+**Response**:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "state": "in_staging",
+  "updated_at": "2021-03-19T13:30:20+00:00",
+  "dd_filename": "dd_filename.txt",
+  "batch": "10032021_1130",
+  "service_name": "data delivery"
+}
+```
+
+### Get all batches
+
+Retrieve a list of all batches.
+
+**Request**:
+
+```sh
+curl localhost:5008/v1/batch \
+ -X GET \
+  -H "Content-type: application/json"
+```
+
+**Response**:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+[
+  "24032021_134028",
+  "12032021_023052",
+  "24032021_155714"
+]
+```
+
+### Get all states in a batch
+
+Get a list of all the state records with a given batch.
+
+**Request**:
+
+```sh
+curl localhost:5008/v1/batch/24032021_165033 \
+ -X GET \
+  -H "Content-type: application/json"
+```
+
+**Response**:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+[
+  {
+    "batch":"24032021_165033",
+    "dd_filename":"dd_OPN2102R_24032021_165033.zip",
+    "state":"Started",
+    "updated_at":"2021-03-24T16:50:35+00:00"
+  },
+  {
+    "batch":"24032021_165033",
+    "dd_filename":"dd_OPN2101W_24032021_165033.zip",
+    "state":"in_staging",
+    "updated_at":"2021-03-24T16:50:35+00:00"
+  }
+]
 ```
