@@ -4,10 +4,10 @@ import pytz
 from flask import jsonify
 
 STATES = {
-    "inactive": "The data delivery instrument has no active survey days, we will note geneate a data delivery file, we should never alert",  # noqa: E501
+    "inactive": "The data delivery instrument has no active survey days, a data delivery file will not be generated.",  # noqa: E501
     "started": "The data delivery process has found an instrument with active survey days",  # noqa: E501
     "generated": "The data delivery process has generated the required files",
-    "in_staging": "The data delivery files have been copied to the staging bucket",
+    "in_staging": "The data delivery files have been copied to the staging bucket ready for encryption",
     "encrypted": "The data delivery files have been encrypted and are ready for NiFi",
     "in_nifi_bucket": "The data delivery files are in the NiFi bucket",
     "nifi_notified": "NiFi has been notified that we have files to ingest",
