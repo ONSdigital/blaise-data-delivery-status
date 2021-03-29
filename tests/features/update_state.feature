@@ -13,8 +13,8 @@ Feature: Update state records
       }
       """
     Then redis should contain:
-      | key             | value                                                                                                                      |
-      | dd_filename.txt | {"state": "in_arc", "updated_at": "2021-03-20T19:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130"} |
+      | key             | value                                                                                                                                        |
+      | dd_filename.txt | {"state": "in_arc", "updated_at": "2021-03-20T19:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "alerted": false} |
     Then the response code should be "200"
     And the response should be:
       """
@@ -22,7 +22,35 @@ Feature: Update state records
         "state": "in_arc",
         "updated_at": "2021-03-20T19:45:20+00:00",
         "dd_filename": "dd_filename.txt",
-        "batch": "10032021_1130"
+        "batch": "10032021_1130",
+        "alerted": false
+      }
+      """
+
+  Scenario: Updating the state defaults the "alerted" property to false
+
+    Given redis contains:
+      | key             | value                                                                                                                                         |
+      | dd_filename.txt | {"state": "starting", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "alerted": true} |
+    And the current time is "2021-03-20 19:45:20"
+    When I PATCH to "/v1/state/dd_filename.txt" with the payload:
+      """
+      {
+        "state": "in_arc"
+      }
+      """
+    Then redis should contain:
+      | key             | value                                                                                                                                        |
+      | dd_filename.txt | {"state": "in_arc", "updated_at": "2021-03-20T19:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "alerted": false} |
+    Then the response code should be "200"
+    And the response should be:
+      """
+      {
+        "state": "in_arc",
+        "updated_at": "2021-03-20T19:45:20+00:00",
+        "dd_filename": "dd_filename.txt",
+        "batch": "10032021_1130",
+        "alerted": false
       }
       """
 
@@ -39,8 +67,8 @@ Feature: Update state records
       }
       """
     Then redis should contain:
-      | key             | value                                                                                                                                                             |
-      | dd_filename.txt | {"state": "errored", "updated_at": "2021-03-20T19:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "error_info": "It exploded real bad"} |
+      | key             | value                                                                                                                                                                               |
+      | dd_filename.txt | {"state": "errored", "updated_at": "2021-03-20T19:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "alerted": false, "error_info": "It exploded real bad"} |
     And the response code should be "200"
     And the response should be:
       """
@@ -49,7 +77,8 @@ Feature: Update state records
         "updated_at": "2021-03-20T19:45:20+00:00",
         "dd_filename": "dd_filename.txt",
         "batch": "10032021_1130",
-        "error_info": "It exploded real bad"
+        "error_info": "It exploded real bad",
+        "alerted": false
       }
       """
 

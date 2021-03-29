@@ -34,6 +34,7 @@ def create_state_record(dd_filename):
         "updated_at": updated_at(),
         "dd_filename": dd_filename,
         "batch": batch,
+        "alerted": False
     }
     if error_info:
         state_record["error_info"] = error_info
@@ -66,8 +67,30 @@ def update_state_record(dd_filename):
 
     state_record["updated_at"] = updated_at()
     state_record["state"] = state
+    state_record["alerted"] = False
     if error_info:
         state_record["error_info"] = error_info
+    current_app.redis_client.set(dd_filename, json.dumps(state_record))
+    return state_record
+
+
+@state.route("/<dd_filename>/alerted", methods=["PATCH"])
+def set_alerted(dd_filename):
+    state_request = request.json
+    alerted = state_request.get("alerted")
+    if alerted is None:
+        return api_error("Request did not include 'alerted'")
+
+    if type(alerted) is not bool:
+        return api_error("Alerted must be a boolean")
+
+    state_record = current_app.redis_client.get(dd_filename)
+    if state_record is None:
+        return api_error("State record does not exist", 404)
+
+    state_record = json.loads(state_record)
+
+    state_record["alerted"] = alerted
     current_app.redis_client.set(dd_filename, json.dumps(state_record))
     return state_record
 

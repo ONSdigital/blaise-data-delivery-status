@@ -77,7 +77,8 @@ Content-Type: application/json
   "updated_at": "2021-03-19T12:45:20+00:00",
   "dd_filename": "dd_filename.txt",
   "batch": "10032021_1130",
-  "service_name": "data delivery"
+  "service_name": "data delivery",
+  "alerted": false
 }
 ```
 
@@ -114,7 +115,46 @@ Content-Type: application/json
   "updated_at": "2021-03-19T13:30:20+00:00",
   "dd_filename": "dd_filename.txt",
   "batch": "10032021_1130",
-  "service_name": "data delivery"
+  "service_name": "data delivery",
+  "alerted": false
+}
+```
+
+### Set alerted
+
+This can only used to update an existing state record.
+
+**Required Parameters**:
+
+| Name    | Description                                                                                                       |
+|---------|-------------------------------------------------------------------------------------------------------------------|
+| alerted | `true` for this record has already been alerted in its current state, defaults to `false` when a state is updated |
+
+
+**Request**:
+
+```sh
+curl localhost:5008/v1/state/dd_filename.txt \
+ -X PATCH \
+  -H "Content-type: application/json" \
+  -d '{
+    "alerted": "true"
+  }'
+```
+
+**Response**:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "state": "in_staging",
+  "updated_at": "2021-03-19T13:30:20+00:00",
+  "dd_filename": "dd_filename.txt",
+  "batch": "10032021_1130",
+  "service_name": "data delivery",
+  "alerted": true
 }
 ```
 
@@ -166,13 +206,15 @@ Content-Type: application/json
     "batch":"24032021_165033",
     "dd_filename":"dd_OPN2102R_24032021_165033.zip",
     "state":"Started",
-    "updated_at":"2021-03-24T16:50:35+00:00"
+    "updated_at":"2021-03-24T16:50:35+00:00",
+    "alerted": false
   },
   {
     "batch":"24032021_165033",
     "dd_filename":"dd_OPN2101W_24032021_165033.zip",
     "state":"in_staging",
-    "updated_at":"2021-03-24T16:50:35+00:00"
+    "updated_at":"2021-03-24T16:50:35+00:00",
+    "alerted": false
   }
 ]
 ```

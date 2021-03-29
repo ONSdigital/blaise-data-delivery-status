@@ -13,8 +13,8 @@ Feature: Create state records
       }
       """
     Then redis should contain:
-      | key             | value                                                                                                                       |
-      | dd_filename.txt | {"state": "started", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130"} |
+      | key             | value                                                                                                                                         |
+      | dd_filename.txt | {"state": "started", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "alerted": false} |
     And the set "10032021_1130" should contain:
       | key             |
       | dd_filename.txt |
@@ -25,7 +25,8 @@ Feature: Create state records
         "state": "started",
         "updated_at": "2021-03-19T12:45:20+00:00",
         "dd_filename": "dd_filename.txt",
-        "batch": "10032021_1130"
+        "batch": "10032021_1130",
+        "alerted": false
       }
       """
 
@@ -42,8 +43,8 @@ Feature: Create state records
       }
       """
     Then redis should contain:
-      | key             | value                                                                                                                                                             |
-      | dd_filename.txt | {"state": "errored", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "error_info": "It exploded real bad"} |
+      | key             | value                                                                                                                                                                               |
+      | dd_filename.txt | {"state": "errored", "updated_at": "2021-03-19T12:45:20+00:00", "dd_filename": "dd_filename.txt", "batch": "10032021_1130", "alerted": false, "error_info": "It exploded real bad"} |
     And the set "10032021_1130" should contain:
       | key             |
       | dd_filename.txt |
@@ -55,6 +56,7 @@ Feature: Create state records
         "updated_at": "2021-03-19T12:45:20+00:00",
         "dd_filename": "dd_filename.txt",
         "batch": "10032021_1130",
+        "alerted": false,
         "error_info": "It exploded real bad"
       }
       """
