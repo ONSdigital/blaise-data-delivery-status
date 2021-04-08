@@ -1,7 +1,7 @@
 import pytest
 import responses
 
-from client import StateValidationException
+from client.blaise_dds import StateValidationException
 
 
 def test_update_state_invalid_state(client):

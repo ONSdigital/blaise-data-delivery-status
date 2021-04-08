@@ -3,8 +3,8 @@ from typing import Optional
 import requests
 
 from app.utils import state_is_valid
-from client.config import Config
-from client.exceptions import StateValidationException
+from client.blaise_dds.config import Config
+from client.blaise_dds.exceptions import StateValidationException
 
 
 class Client:

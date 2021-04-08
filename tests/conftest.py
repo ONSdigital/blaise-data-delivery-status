@@ -1,6 +1,6 @@
 import pytest
 
-from client import Client, Config
+from client.blaise_dds import Client, Config
 
 
 @pytest.fixture
