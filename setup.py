@@ -13,8 +13,8 @@ setup(
     description="A python library for interacting with the blaise data-delivery-status service",  # noqa: E501
     url="https://github.com/ONSdigital/blaise-data-delivery-status",
     license="MIT",
-    packages=["client"],
-    package_dir={"": "."},
+    packages=["blaise_dds"],
+    package_dir={"client": "."},
     python_requires=">=3.6",
     install_requires=["requests>=2.25.1", "pytz>=2021.1"],
     test_suite="tests/client",
