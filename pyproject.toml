@@ -3,6 +3,9 @@ name = "blaise-data-delivery-status"
 version = "0.1.0"
 description = ""
 authors = ["Blaise 5 Team"]
+packages = [
+  { include = "blaise_dds", from = "client"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.7"
