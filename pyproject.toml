@@ -4,7 +4,8 @@ version = "0.1.0"
 description = ""
 authors = ["Blaise 5 Team"]
 packages = [
-  { include = "blaise_dds", from = "client"}
+  { include = "blaise_dds", from = "client"},
+  { include = "utils", from = "app" }
 ]
 
 [tool.poetry.dependencies]
