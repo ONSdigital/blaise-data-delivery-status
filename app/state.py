@@ -2,7 +2,8 @@ import json
 
 from flask import Blueprint, current_app, request
 
-from app.utils import STATES, api_error, state_error, state_is_valid, updated_at
+from app.utils import api_error, state_error, updated_at
+from client.blaise_dds import STATES, state_is_valid
 
 state = Blueprint("state", __name__, url_prefix="/v1/state")
 

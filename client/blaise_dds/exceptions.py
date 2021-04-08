@@ -1,4 +1,4 @@
-from app.utils import STATES
+from .states import STATES
 
 
 class StateValidationException(Exception):

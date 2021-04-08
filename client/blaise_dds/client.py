@@ -2,9 +2,9 @@ from typing import Optional
 
 import requests
 
-from app.utils import state_is_valid
-from client.blaise_dds.config import Config
-from client.blaise_dds.exceptions import StateValidationException
+from .config import Config
+from .exceptions import StateValidationException
+from .states import state_is_valid
 
 
 class Client:
