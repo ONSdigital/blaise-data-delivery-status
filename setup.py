@@ -14,7 +14,7 @@ setup(
     url="https://github.com/ONSdigital/blaise-data-delivery-status",
     license="MIT",
     packages=["blaise_dds"],
-    package_dir={"client": "."},
+    package_dir={"": "client"},
     python_requires=">=3.6",
     install_requires=["requests>=2.25.1", "pytz>=2021.1"],
     test_suite="tests/client",
