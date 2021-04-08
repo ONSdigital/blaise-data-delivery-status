@@ -34,7 +34,7 @@ def create_state_record(dd_filename):
         "updated_at": updated_at(),
         "dd_filename": dd_filename,
         "batch": batch,
-        "alerted": False
+        "alerted": False,
     }
     if error_info:
         state_record["error_info"] = error_info
