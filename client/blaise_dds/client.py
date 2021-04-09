@@ -23,7 +23,9 @@ class Client:
         if error_info:
             payload["error_info"] = error_info
         if self.config.client_id:
-            headers = {"Authorization": f"Bearer {self.auth_token()}"}
+            auth_token = self.auth_token()
+            headers = {"Authorization": f"Bearer {auth_token}"}
+            print(headers)
         return requests.patch(self._update_url(filename), json=payload, headers=headers)
 
     def _update_url(self, filename: str) -> str:
