@@ -25,6 +25,8 @@ flake8-cognitive-complexity = "^0.1.0"
 requests = "^2.25.1"
 pytest = "^6.2.3"
 responses = "^0.13.2"
+google-auth = "^1.28.1"
+google-oauth = "^1.0.0"
 
 [tool.isort]
 multi_line_output = "3"

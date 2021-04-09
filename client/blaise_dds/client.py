@@ -1,6 +1,8 @@
 from typing import Optional
 
 import requests
+from google.auth.transport.requests import Request
+from google.oauth2 import id_token
 
 from .config import Config
 from .exceptions import StateValidationException
@@ -17,9 +19,15 @@ class Client:
         if not state_is_valid(state):
             raise StateValidationException(state)
         payload = {"state": state}
+        headers = {}
         if error_info:
             payload["error_info"] = error_info
-        return requests.patch(self._update_url(filename), json=payload)
+        if self.config.client_id:
+            headers = {"Authoirzation": f"Bearer {self.auth_token}"}
+        return requests.patch(self._update_url(filename), json=payload, headers=headers)
 
     def _update_url(self, filename: str) -> str:
-        return f"{self.config.URL}/v1/state/{filename}"
+        return f"{self.config.url}/v1/state/{filename}"
+
+    def auth_token(self) -> str:
+        return id_token.fetch_id_token(Request(), self.config.client_id)

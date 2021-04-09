@@ -5,4 +5,4 @@ from client.blaise_dds import Client, Config
 
 @pytest.fixture
 def client():
-    return Client(Config(URL="http://localhost"))
+    return Client(Config(url="http://localhost"))

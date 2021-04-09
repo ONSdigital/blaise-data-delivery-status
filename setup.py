@@ -16,7 +16,12 @@ setup(
     packages=["blaise_dds"],
     package_dir={"": "client"},
     python_requires=">=3.6",
-    install_requires=["requests>=2.25.1", "pytz>=2021.1"],
+    install_requires=[
+        "requests>=2.25.1",
+        "pytz>=2021.1",
+        "google-auth>=1.28.1",
+        "google-oauth>=1.0.0",
+    ],
     test_suite="tests/client",
     classifiers=[
         "Intended Audience :: Developers",

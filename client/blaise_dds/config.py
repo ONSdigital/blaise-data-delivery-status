@@ -1,6 +1,8 @@
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
 class Config:
-    URL: str
+    url: str
+    client_id: Optional[str] = None
