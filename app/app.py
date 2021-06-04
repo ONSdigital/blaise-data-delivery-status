@@ -35,7 +35,7 @@ def health_check():
 
 
 @app.route("/data-delivery-status")
-def health_check():
+def check():
     return "HELLLLLLLLOOOOOOOOOOO", 200
 
 
