@@ -34,7 +34,7 @@ def health_check():
     return latency, 200
 
 
-@app.route("/data-delivery-status")
+@app.route("/data-delivery-status/")
 def check():
     return "HELLLLLLLLOOOOOOOOOOO", 200
 
