@@ -26,11 +26,18 @@ def instance_shutdown():
     app.redis_client.close()
     return "", 200
 
+
 @app.route("/heath")
 def health_check():
     print("Checking Redis Connection Health")
     latency = app.redis_client.latency_doctor()
     return latency, 200
+
+
+@app.route("/data-delivery-status")
+def health_check():
+    return "HELLLLLLLLOOOOOOOOOOO", 200
+
 
 @app.errorhandler(BadRequest)
 def handle_bad_request(e):
