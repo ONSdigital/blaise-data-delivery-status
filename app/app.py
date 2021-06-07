@@ -27,7 +27,7 @@ def instance_shutdown():
     return "", 200
 
 
-@app.route("/data-delivery-status/<string:service_version>")
+@app.route("/data-delivery-status/<version>")
 def health_check():
     print("Checking Redis Connection Health")
     try:
