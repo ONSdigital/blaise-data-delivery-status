@@ -27,12 +27,12 @@ def instance_shutdown():
     return "", 200
 
 
-@app.route("/data-delivery-status/")
-def health_check():
-    print("Checking Redis Connection Health")
+@app.route("/data-delivery-status/<version>/health")
+def health_check(version):
+    print(f"Checking {version} health by checking redis connectivity")
     try:
         app.redis_client.ping()
-        return "Connection to Redis confirmed", 200
+        return "Connection to Redis confirmed ", 200
     except:
         return "Connection to Redis has failed", 502
 
