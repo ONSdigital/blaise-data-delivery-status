@@ -1,4 +1,5 @@
 import os
+from flask.wrappers import Response
 
 import redis
 from flask import Flask, jsonify
@@ -32,9 +33,11 @@ def health_check(version):
     print(f"Checking {version} health by checking redis connectivity")
     try:
         app.redis_client.ping()
-        return jsonify("healthy")
+        response = {"healthy": True}
+        return jsonify(response)
     except:
-        return jsonify("unhealthy")
+        response = {"healthy": False}
+        return jsonify(response)
 
 @app.errorhandler(BadRequest)
 def handle_bad_request(e):
