@@ -1,7 +1,7 @@
 import os
 
 import redis
-from flask import Flask
+from flask import Flask, jsonify
 from werkzeug.exceptions import BadRequest
 
 from app.batch import batch
@@ -32,9 +32,9 @@ def health_check(version):
     print(f"Checking {version} health by checking redis connectivity")
     try:
         app.redis_client.ping()
-        return "Connection to Redis confirmed ", 200
+        return jsonify("healthy")
     except:
-        return "Connection to Redis has failed", 502
+        return jsonify("unhealthy")
 
 @app.errorhandler(BadRequest)
 def handle_bad_request(e):
