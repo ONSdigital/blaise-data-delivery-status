@@ -1,7 +1,8 @@
 import os
+from flask.wrappers import Response
 
 import redis
-from flask import Flask
+from flask import Flask, jsonify
 from werkzeug.exceptions import BadRequest
 
 from app.batch import batch
@@ -26,6 +27,17 @@ def instance_shutdown():
     app.redis_client.close()
     return "", 200
 
+
+@app.route("/data-delivery-status/<version>/health")
+def health_check(version):
+    print(f"Checking {version} health by checking redis connectivity")
+    try:
+        app.redis_client.ping()
+        response = {"healthy": True}
+        return jsonify(response)
+    except:
+        response = {"healthy": False}
+        return jsonify(response)
 
 @app.errorhandler(BadRequest)
 def handle_bad_request(e):
