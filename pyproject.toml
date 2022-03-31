@@ -3,6 +3,9 @@ name = "blaise-data-delivery-status"
 version = "0.1.0"
 description = ""
 authors = ["Blaise 5 Team"]
+packages = [
+  { include = "blaise_dds", from = "client"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -19,6 +22,11 @@ fakeredis = "^1.4.5"
 freezegun = "^1.1.0"
 coverage = "^5.5"
 flake8-cognitive-complexity = "^0.1.0"
+requests = "^2.25.1"
+pytest = "^6.2.3"
+responses = "^0.13.2"
+google-auth = "^1.28.1"
+google-oauth = "^1.0.0"
 
 [tool.isort]
 multi_line_output = "3"
