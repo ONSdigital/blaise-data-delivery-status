@@ -1,5 +1,5 @@
 service: data-delivery-status
-runtime: python37
+runtime: python39
 
 env_variables:
   REDIS_HOST: _REDIS_HOST
