@@ -22,3 +22,4 @@ lint:
 ## Run unit tests
 test:
 	@poetry run python -m behave --format=progress2 tests/features
+	@poetry run python -m pytest
