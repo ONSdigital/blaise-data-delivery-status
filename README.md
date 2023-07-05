@@ -9,15 +9,27 @@
 
 A simple API that can be used to track the status of a data delivery process
 
+## Batch Names
+
+The Data Delivery Dashboard gets the time and date from the batch name. As a result, the batch name format is important.
+Batch names are formatted as follows:
+
+`TLA_DDMMYYYY_HHMMSS`
+
+Where:
+- `TLA` is the three-letter acronym for the survey
+- `DDMMYYYY` is the date in the format day, month, year
+- `HHMMSS` is the time in the format hour, minute, second
+
 ## States
 
 **Note**: The latest state we can currently get is `in_arc` we do not call this `finished` because there is still
-some processing that needs to happen in NiFi to copy the files to the final destination. At present we have no way of
+some processing that needs to happen in NiFi to copy the files to the final destination. At present, we have no way of
 knowing if this has happened. If a data delivery file is in the `in_arc` state we can assume that we need to contact
 CATD for more insight if any issues are reported.
 
 **Note**: If we do not receive a receipt within 30 minutes of a message being in the `nifi_notified` state, we expect
-any consumers of this API to flag it as an isue.
+any consumers of this API to flag it as an issue.
 
 **Note**: If you update the state to `errored` you should also update the record with `error_info` to give any consumers
 details about what has errored.
@@ -51,7 +63,7 @@ This can only be run to create a new state record, it is expected you would do t
 |--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | state        | The initial state of record, usually `started`                                                                                                                                                                                        |
 | batch        | What batch is the record part of, this should relate to a scheduled "run" of data delivery, for OPN this would typically be the date followed by 1130, or 230, we use this to return all data delivery files for a paricular schedule |
-| service_name | The name of the service that updated the state                                                                                                                                                                                        |
+
 
 **Request**:
 
@@ -60,9 +72,8 @@ curl localhost:5008/v1/state/dd_filename.txt \
  -X POST \
   -H "Content-type: application/json" \
   -d '{
-    "state": "starting",
-    "batch": "10032021_1130",
-    "service_name": "data delivery"
+    "state": "started",
+    "batch": "DST_10032021_113034"
   }'
 ```
 
@@ -73,10 +84,10 @@ HTTP/1.1 201 Created
 Content-Type: application/json
 
 {
-  "state": "starting",
+  "state": "started",
   "updated_at": "2021-03-19T12:45:20+00:00",
   "dd_filename": "dd_filename.txt",
-  "batch": "10032021_1130",
+  "batch": "DST_10032021_113034",
   "service_name": "data delivery",
   "alerted": false
 }
@@ -114,7 +125,7 @@ Content-Type: application/json
   "state": "in_staging",
   "updated_at": "2021-03-19T13:30:20+00:00",
   "dd_filename": "dd_filename.txt",
-  "batch": "10032021_1130",
+  "batch": "DST_10032021_113034",
   "service_name": "data delivery",
   "alerted": false
 }
@@ -152,7 +163,7 @@ Content-Type: application/json
   "state": "in_staging",
   "updated_at": "2021-03-19T13:30:20+00:00",
   "dd_filename": "dd_filename.txt",
-  "batch": "10032021_1130",
+  "batch": "DST_10032021_113034",
   "service_name": "data delivery",
   "alerted": true
 }
@@ -177,9 +188,9 @@ HTTP/1.1 200 OK
 Content-Type: application/json
 
 [
-  "24032021_134028",
-  "12032021_023052",
-  "24032021_155714"
+  "DST_10032021_113034",
+  "DST_01022022_120001",
+  "DST_11122023_120015"
 ]
 ```
 
@@ -190,7 +201,7 @@ Get a list of all the state records with a given batch.
 **Request**:
 
 ```sh
-curl localhost:5008/v1/batch/24032021_165033 \
+curl localhost:5008/v1/batch/DST_10032021_113034 \
  -X GET \
   -H "Content-type: application/json"
 ```
@@ -203,14 +214,14 @@ Content-Type: application/json
 
 [
   {
-    "batch":"24032021_165033",
+    "batch":"DST_10032021_113034",
     "dd_filename":"dd_OPN2102R_24032021_165033.zip",
     "state":"Started",
     "updated_at":"2021-03-24T16:50:35+00:00",
     "alerted": false
   },
   {
-    "batch":"24032021_165033",
+    "batch":"DST_10032021_113034",
     "dd_filename":"dd_OPN2101W_24032021_165033.zip",
     "state":"in_staging",
     "updated_at":"2021-03-24T16:50:35+00:00",
