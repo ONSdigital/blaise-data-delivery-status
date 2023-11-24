@@ -1,6 +1,7 @@
 import os
 
 import redis
+from google.cloud import datastore
 from flask import Flask, jsonify
 from werkzeug.exceptions import BadRequest
 
@@ -13,12 +14,15 @@ app = Flask(__name__)
 app.register_blueprint(batch)
 app.register_blueprint(state)
 
-
+# TODO: Old code to be removed once the Datastore client has been setup 
 def init_redis(app):
     redis_host = os.getenv("REDIS_HOST", "localhost")
     redis_port = os.getenv("REDIS_PORT", "6379")
     app.redis_client = redis.Redis(host=redis_host, port=redis_port, db=0)
 
+# WIP: To initialise a Datastore client
+def init_datastore(app):
+    app.datastore_client = datastore.Client()
 
 @app.route("/_ah/stop")
 def instance_shutdown():

@@ -9,6 +9,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "~3.9"
+google-cloud-datastore = "^2.1.2"
 Flask = "^2.1.1"
 redis = "^3.5.3"
 pytz = "^2021.1"

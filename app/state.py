@@ -7,7 +7,15 @@ from client.blaise_dds import STATES, state_is_valid
 
 state = Blueprint("state", __name__, url_prefix="/v1/state")
 
+# TODO: Old code to be removed once the Datastore client has been setup 
+# @state.route("/<dd_filename>", methods=["GET"])
+# def get_state_record(dd_filename):
+#     state_record = current_app.redis_client.get(dd_filename)
+#     if state_record is None:
+#         return api_error("State record does not exist", 404)
+#     return json.loads(state_record)
 
+# WIP: Use Datastore client and query for the data
 @state.route("/<dd_filename>", methods=["GET"])
 def get_state_record(dd_filename):
     state_record = current_app.redis_client.get(dd_filename)

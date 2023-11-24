@@ -1,8 +1,10 @@
 import os
 
-from app.app import app, init_redis
+from app.app import app, init_redis, init_datastore
 
-init_redis(app)
+# TODO: Remove when Datastore client is set up
+# init_redis(app)
+init_datastore(app)
 
 if __name__ == "__main__":
     port = os.getenv("PORT", "5008")
