@@ -3,8 +3,15 @@ from datetime import datetime
 import pytz
 from flask import jsonify
 
-from client.blaise_dds import STATES
+from client.blaise_dds import STATES, DATASTORE_KIND
 
+def get_datastore_entity(datastore_client, dd_filename):
+    return datastore_client.get(
+        datastore_client.key(
+            DATASTORE_KIND,
+            dd_filename
+        )
+    )
 
 def api_error(message, status_code=400):
     return jsonify({"error": message}), status_code
