@@ -24,13 +24,14 @@ def init_redis(app):
 def init_datastore(app):
     app.datastore_client = datastore.Client()
 
+# TODO: How to close a Datastore connection? Do we need to close the connection?
 @app.route("/_ah/stop")
 def instance_shutdown():
     print("Instance shutdown request closing redis_client connection")
     app.redis_client.close()
     return "", 200
 
-
+# TODO: How to ping Datastore? Do a GET request? 
 @app.route("/data-delivery-status/<version>/health")
 def health_check(version):
     print(f"Checking {version} health by checking redis connectivity")

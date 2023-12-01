@@ -3,6 +3,7 @@ from behave import given, then
 
 DATASTORE_KIND = "DDS_tests"
 
+# TODO: Refactor to use Datastore emulator instead of fake Redis client 
 @given("redis contains")
 def step_impl(context):
     datastore_entity = datastore.Entity(
@@ -18,7 +19,6 @@ def step_impl(context, set):
         context.datastore_client.get(context.datastore_client.key(DATASTORE_KIND, row["key"])) 
         if (datastore_entity[row["key"]] == row["key"]):
             datastore_entity[row["key"]] = row["key"]
-        context.redis_client.sadd(f"batch:{set}", row["key"])
 
 
 @then("redis should contain")
