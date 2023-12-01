@@ -1,4 +1,5 @@
 import fakeredis
+from google.cloud import datastore
 from behave import fixture, use_fixture
 
 from app.app import app
@@ -6,8 +7,8 @@ from app.app import app
 
 @fixture
 def flaskr_client(context, *args, **kwargs):
-    app.redis_client = fakeredis.FakeStrictRedis()
-    context.redis_client = app.redis_client
+    app.datastore_client = datastore.Client()
+    context.datastore_client = app.datastore_client
     app.testing = True
     context.client = app.test_client()
     yield context.client

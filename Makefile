@@ -19,7 +19,39 @@ lint:
 	@poetry run flake8 --max-line-length=88 .
 
 .PHONY: test
-## Run unit tests
+## Run full test suite
 test:
+	@echo "Running full test suite (unit tests, integration tests and behave tests)"
 	@poetry run python -m behave --format=progress2 tests/features
+	@$$(gcloud beta emulators datastore env-init) && poetry run python -m pytest
+
+.PHONY: test-unit
+## Run unit tests without integration tests
+test-unit:
+	@echo "Running unit tests"
 	@poetry run python -m pytest
+
+.PHONY: test-integration
+## Run the integration tests
+test-integration:
+	@echo "Running integration tests"
+	@echo "Please ensure that you have run 'make start-datastore-emulator' in a separate terminal window before running 'make test-integration'"
+	@$$(gcloud beta emulators datastore env-init) && poetry run python -m pytest -m "integration_test"
+
+.PHONY: test-behave
+## Run behave tests 
+test-behave:
+	@echo "Running unit tests"
+	@poetry run python -m behave --format=progress2 tests/features
+
+.PHONY: install-datastore-emulator
+## Install Datastore emulator
+install-datastore-emulator:
+	@echo "Installing Datastore emulator"
+	@gcloud components install cloud-datastore-emulator
+
+.PHONY: start-datastore-emulator
+## Start Datastore emulator
+start-datastore-emulator: install-datastore-emulator
+	@echo "Starting Datastore emulator"
+	@gcloud beta emulators datastore start --no-store-on-disk

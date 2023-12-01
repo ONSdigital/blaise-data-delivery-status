@@ -1,15 +1,23 @@
+from google.cloud import datastore
 from behave import given, then
 
+DATASTORE_KIND = "DDS_tests"
 
 @given("redis contains")
 def step_impl(context):
+    datastore_entity = datastore.Entity(
+        context.datastore_client.key(DATASTORE_KIND, "test")
+    ) 
     for row in context.table:
-        context.redis_client.set(row["key"], row["value"])
+        datastore_entity[row["key"]] = row["value"]
 
 
 @given('the redis set "{set}" contains')
-def step_impl(context, set):
+def step_impl(context, set):        
     for row in context.table:
+        context.datastore_client.get(context.datastore_client.key(DATASTORE_KIND, row["key"])) 
+        if (datastore_entity[row["key"]] == row["key"]):
+            datastore_entity[row["key"]] = row["key"]
         context.redis_client.sadd(f"batch:{set}", row["key"])
 
 
