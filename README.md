@@ -229,3 +229,17 @@ Content-Type: application/json
   }
 ]
 ```
+
+## Development
+
+This repository uses poetry. After cloning, install the dependencies by running:
+
+```shell
+poetry install
+```
+
+### Makefile
+
+A `Makefile` is included with some useful tasks to help with development.
+Running `make help` will list all available commands.
+
