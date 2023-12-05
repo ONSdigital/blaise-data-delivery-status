@@ -243,3 +243,22 @@ poetry install
 A `Makefile` is included with some useful tasks to help with development.
 Running `make help` will list all available commands.
 
+### Run Tests
+
+You will need the Google Cloud Datastore Emulator to run the full test suite (including Datastore integration tests)
+
+```shell
+make start-datastore-emulator
+```
+
+**In a separate terminal window**
+
+```shell
+make test
+```
+
+to run the unit tests without the Datastore emulator (i.e. integration tests)
+```shell
+make test-unit
+```
+
