@@ -6,7 +6,7 @@ from behave import given, then
 DATASTORE_KIND = "DDS_tests"
 
 
-@then("Datastore should contain:")
+@then("Datastore should contain")
 def step_impl(context):
     # arrange
     expected = json.loads(context.text)

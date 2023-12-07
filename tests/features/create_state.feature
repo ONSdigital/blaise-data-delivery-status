@@ -10,10 +10,10 @@ Feature: Create state records
         "batch": "10032021_1130"
       }
       """
-    Then Datastore should contain:
+    Then Datastore should contain
       """
       {
-        "alerted": false
+        "alerted": false,
         "batch": "10032021_1130",
         "dd_filename": "dd_filename.txt",
         "state": "started",
