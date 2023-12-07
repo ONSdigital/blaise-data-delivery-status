@@ -6,6 +6,7 @@ from behave import given, then
 DATASTORE_KIND = "DDS_tests"
 
 
+# TODO: This should work if it was pointing at the emulator
 @then("Datastore should contain")
 def step_impl(context):
     # arrange
@@ -16,8 +17,7 @@ def step_impl(context):
     query.add_filter("updated_at", "=", expected["updated_at"])
 
     # act
-    result = list(query.fetch())
+    result = query.fetch()
 
     # assert
     assert result == expected
-    # assert True

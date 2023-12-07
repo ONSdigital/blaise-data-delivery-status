@@ -17,6 +17,6 @@ Feature: Create state records
         "batch": "10032021_1130",
         "dd_filename": "dd_filename.txt",
         "state": "started",
-        "updated_at": "2021-03-19T12:45:20+00:00",
+        "updated_at": "2021-03-19T12:45:20+00:00"
       }
       """
