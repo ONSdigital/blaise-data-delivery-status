@@ -31,13 +31,6 @@ test-unit:
 	@echo "Running unit tests"
 	@poetry run python -m pytest
 
-.PHONY: test-integration
-## Run the integration tests
-test-integration:
-	@echo "Running integration tests"
-	@echo "Please ensure that you have run 'make start-datastore-emulator' in a separate terminal window before running 'make test-integration'"
-	@$$(gcloud beta emulators datastore env-init) && poetry run python -m pytest -m "integration_test"
-
 .PHONY: test-behave
 ## Run behave tests 
 test-behave:
