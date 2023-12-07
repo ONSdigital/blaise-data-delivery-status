@@ -10,7 +10,7 @@ Feature: Create state records
         "batch": "10032021_1130"
       }
       """
-    Then Datastore should contain
+    Then Datastore should contain:
       """
       {
         "alerted": false
