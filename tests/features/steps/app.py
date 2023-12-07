@@ -4,7 +4,7 @@ from behave import given, then, when
 from freezegun import freeze_time
 
 
-@when('I POST to "{path}" with the payload:')
+@when('I POST to "{path}" with the payload')
 def step_impl(context, path):
     response = context.client.post(
         path, data=context.text, content_type="application/json"
