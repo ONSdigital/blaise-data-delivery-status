@@ -470,9 +470,12 @@ This repository uses poetry. After cloning, install the dependencies by running:
   
 
 ```shell
-
 poetry  install
+```
 
+To start the Flask app, run:
+```shell
+poetry run python main.py
 ```
 
   
@@ -488,25 +491,8 @@ Running `make help` will list all available commands.
   
 
 ### Run Tests
-
 You will need the Google Cloud Datastore Emulator to run the full test suite.
 
-#### Datastore Emulator setup
-
-To install the emulator, run:
-
-```shell
-make install-datastore-emulator
-```
-
-To start the emulator, run the following in a separate terminal window:
-
-```shell
-make start-datastore-emulator
-```
-  
-
-#### Test suites
 To run the **full test suite**, including the Datastore behave tests:
 ```shell
 make  test
@@ -518,10 +504,11 @@ To run the **unit tests** which do not use the Datastore emulator:
 make  test-unit
 ```
 
-To run the **behave tests** which uses the Datastore emulator, you will need to:
+To run the **behave tests** which uses the [Datastore emulator](#setup-datastore-emulator), you will need to:
 
- 1. Connect to the running Datastore Emulator, export the following environment variables:
+ 1. Connect to the running Datastore Emulator, export/set the following environment variables:
 	```shell
+	<!-- For Windows, replace export with set -->
 	export DATASTORE_DATASET=test-dataset
 	export DATASTORE_EMULATOR_HOST=localhost:8081
 	export DATASTORE_EMULATOR_HOST_PATH=localhost:8081/datastore
@@ -532,3 +519,12 @@ To run the **behave tests** which uses the Datastore emulator, you will need to:
 	```shell
 	make test-behave
 	```
+
+#### Setup Datastore Emulator
+
+To install and start the Datastore emulator, run the following in a separate terminal window:
+
+```shell
+make start-datastore-emulator
+```
+  

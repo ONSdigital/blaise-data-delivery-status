@@ -6,8 +6,6 @@ from app.utils import api_error
 batch = Blueprint("batch", __name__, url_prefix="/v1/batch")
 
 
-# TODO: What is the relationship between batches and state records? A batch is a collection of state records?
-
 @batch.route("", methods=["GET"])
 def get_bactches():
     batch = []

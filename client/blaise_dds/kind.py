@@ -1,1 +1,1 @@
-DATASTORE_KIND = "BLAIS5-3756"
+DATASTORE_KIND = "data-delivery-state"
