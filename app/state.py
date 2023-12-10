@@ -1,5 +1,3 @@
-import json
-
 from flask import Blueprint, current_app, request
 from google.cloud import datastore
 
@@ -45,8 +43,8 @@ def create_state_record(dd_filename):
     record_entity = datastore.Entity(
         current_app.datastore_client.key(DATASTORE_KIND, dd_filename)
     )
-    for key, value in state_record.items():
-        record_entity[key] = value
+    record_entity.update(state_record)
+
     current_app.datastore_client.put(record_entity)
 
     return state_record, 201

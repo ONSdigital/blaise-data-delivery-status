@@ -2,9 +2,7 @@ import json
 
 from google.cloud import datastore
 from behave import given, then
-
-DATASTORE_KIND = "DDS_tests"
-
+from client.blaise_dds import DATASTORE_KIND
 
 # TODO: This should work if it was pointing at the emulator
 @then("Datastore should contain")
