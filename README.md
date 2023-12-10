@@ -506,7 +506,15 @@ make  test-unit
 
 To run the **behave tests** which uses the [Datastore emulator](#setup-datastore-emulator), you will need to:
 
- 1. Connect to the running Datastore Emulator, export/set the following environment variables:
+ 1. Connect to the running Datastore Emulator, by following [Setup Datastore Emulator](#setup-datastore-emulator).
+2.	Run the following to start the tests:
+	```shell
+	make test-behave
+	```
+
+#### Setup Datastore Emulator
+
+1.	Export/set the following environment variables:
 	```shell
 	<!-- For Windows, replace export with set -->
 	export DATASTORE_DATASET=test-dataset
@@ -515,16 +523,9 @@ To run the **behave tests** which uses the [Datastore emulator](#setup-datastore
 	export DATASTORE_HOST=http://localhost:8081
 	export DATASTORE_PROJECT_ID=test-project
 	```
-2.	Run the following to start the tests:
+2. To install the Datastore Emulator, run ```make install-datastore-emulator```
+3. To start the Datastore emulator, run the following in a separate terminal window:
 	```shell
-	make test-behave
+	gcloud beta emulators datastore start --no-store-on-disk
 	```
-
-#### Setup Datastore Emulator
-
-To install and start the Datastore emulator, run the following in a separate terminal window:
-
-```shell
-make start-datastore-emulator
-```
-  
+	**NB:** Running this command instead of ```make start-datastore-emulator``` allows you to easily terminate the local Datastore Emulator.
