@@ -17,6 +17,7 @@ def get_bactches():
         batch.append(result)
     return jsonify(batch), 200
 
+
 # TODO: Verify response object
 @batch.route("/<batch_name>", methods=["GET"])
 def get_batch(batch_name):
