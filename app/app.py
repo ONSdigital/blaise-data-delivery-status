@@ -1,6 +1,3 @@
-import os
-
-import redis
 from google.cloud import datastore
 from flask import Flask, jsonify
 from werkzeug.exceptions import BadRequest
@@ -14,8 +11,10 @@ app = Flask(__name__)
 app.register_blueprint(batch)
 app.register_blueprint(state)
 
+
 def init_datastore(app):
     app.datastore_client = datastore.Client()
+
 
 @app.route("/data-delivery-status/<version>/health")
 def health_check(version):
