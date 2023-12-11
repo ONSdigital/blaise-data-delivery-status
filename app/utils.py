@@ -7,6 +7,7 @@ from client.blaise_dds import STATES, DATASTORE_KIND
 from google.api_core import exceptions
 from google.api_core import retry
 
+
 def get_datastore_entity(datastore_client, dd_filename):
     try:
         key = datastore_client.key(
@@ -16,6 +17,7 @@ def get_datastore_entity(datastore_client, dd_filename):
         return datastore_client.get(key=key)
     except ValueError:
         raise ValueError('error while trying to check for entity')
+
 
 def api_error(message, status_code=400):
     return jsonify({"error": message}), status_code

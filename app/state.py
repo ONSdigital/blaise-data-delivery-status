@@ -6,6 +6,7 @@ from client.blaise_dds import DATASTORE_KIND, STATES, state_is_valid
 
 state = Blueprint("state", __name__, url_prefix="/v1/state")
 
+
 @state.route("/<dd_filename>", methods=["GET"])
 def get_state_record(dd_filename):
     state_record = get_datastore_entity(current_app.datastore_client, dd_filename)
