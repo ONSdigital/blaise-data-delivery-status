@@ -5,6 +5,18 @@ from behave import fixture, use_fixture
 from app.app import app
 
 
+# @fixture
+# def setup_app(application, context):
+#     datastore_client = datastore.Client()
+#     application.call_history_client = CallHistoryClient(
+#         datastore_client, application.configuration
+#     )
+#
+#     app.testing = True
+#     context.client = app.test_client()
+#     yield context.client
+
+
 @fixture
 def flaskr_client(context, *args, **kwargs):
     app.datastore_client = datastore.Client()

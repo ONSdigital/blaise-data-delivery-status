@@ -28,6 +28,7 @@ def create_state_record(dd_filename):
         return state_error(state)
     if state != "errored" and error_info is not None:
         return api_error("You can only provide 'error_info' if the state is 'errored'")
+    foo = current_app
     if get_datastore_entity(current_app.datastore_client, dd_filename) is not None:
         return api_error("Resource already exists", 409)
     
