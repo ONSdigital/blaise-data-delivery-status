@@ -1,4 +1,4 @@
-from blaise_dds.kind import DATASTORE_KIND
+from client.blaise_dds.kind import DATASTORE_KIND
 from flask import Blueprint, current_app, jsonify
 
 from app.utils import api_error
