@@ -4,11 +4,9 @@ from google.cloud import datastore
 from behave import given, then
 from client.blaise_dds import DATASTORE_KIND
 
-@given("redis contains")
+@given("Datastore contains")
 def step_impl(context):
-    for row in context.table:
-        context.redis_client.set(row["key"], row["value"])
-
+    pass
 
 @then("Datastore should contain")
 def step_impl(context):
