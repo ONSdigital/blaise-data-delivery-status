@@ -5,12 +5,12 @@ from freezegun import freeze_time
 
 
 @when('I POST to "{path}" with the payload')
-def step_impl(context, path):
-    # response = context.client.post(
-    #     path, data=context.text, content_type="application/json"
-    # )
-    # context.response = response.get_json()
-    # context.response_status_code = response.status_code
+def step_impl(context, path): 
+    response = context.client.post(
+        path, data=context.text, content_type="application/json"
+    )
+    context.response = response.get_json()
+    context.response_status_code = response.status_code
     assert True
 
 

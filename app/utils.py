@@ -4,8 +4,6 @@ import pytz
 from flask import jsonify
 
 from client.blaise_dds import STATES, DATASTORE_KIND
-from google.api_core import exceptions
-from google.api_core import retry
 
 def get_datastore_entity(datastore_client, dd_filename):
     try:

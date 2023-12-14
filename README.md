@@ -523,6 +523,15 @@ To run the **behave tests** which uses the [Datastore emulator](#setup-datastore
 	export DATASTORE_HOST=http://localhost:8081
 	export DATASTORE_PROJECT_ID=test-project
 	```
+1. Create and add the following variables to your .env file:
+	```shell
+	<!-- For Windows, replace export with set -->
+	export DATASTORE_DATASET=test-dataset
+	export DATASTORE_EMULATOR_HOST=localhost:8081
+	export DATASTORE_EMULATOR_HOST_PATH=localhost:8081/datastore
+	export DATASTORE_HOST=http://localhost:8081
+	export DATASTORE_PROJECT_ID=test-project
+	```
 2. To install the Datastore Emulator, run ```make install-datastore-emulator```
 3. To start the Datastore emulator, run the following in a separate terminal window:
 	```shell
