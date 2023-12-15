@@ -299,7 +299,7 @@ DATASTORE_HOST=http://localhost:8081
 DATASTORE_PROJECT_ID=test-project
 ```
 
-1.  Once you've created an ```.env```, install the Datastore Emulator by running:
+1.  Once you've created a ```.env``` file, install the Datastore Emulator by running:
     ```shell
     make install-datastore-emulator
     ```
