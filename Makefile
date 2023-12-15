@@ -40,9 +40,11 @@ test-unit:
 ## Run behave tests 
 test-behave:
 	@echo "Running behavioural tests"
-	@echo "Please ensure that you have run 'make start-datastore-emulator' in a separate terminal window before running 'make test-behave'"
+	@echo "Please ensure that the Datastore Emulator is running in a separate terminal window"
 	@$$(gcloud beta emulators datastore env-init) && poetry run python -m behave --format=progress2 tests/features
 
 .PHONY: test
 ## Run full test suite
 test: test-unit test-behave
+	@echo "Running full test suite"
+	@echo "Please ensure that the Datastore Emulator is running in a separate terminal window"
