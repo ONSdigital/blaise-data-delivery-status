@@ -24,5 +24,7 @@ def after_scenario(context, _scenario):
     query_results = list(query.fetch())
     context.datastore_client.delete_multi(query_results)
 
+    # TODO: Continue to use freezegun or use another alternative - or even remove the frozen time entirely
+    # NOTE: freezegun seems to work with Google Datastore when the time is very recent, i.e. present time or a few hours later
     if context.freezer:
         context.freezer.stop()

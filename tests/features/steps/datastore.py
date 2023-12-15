@@ -20,10 +20,12 @@ def step_impl(context):
 @then("Datastore should contain")
 def step_impl(context):
     # arrange
-    expected = json.loads(context.text)
+    expected = json.loads(context.text)[0]
 
     client = context.datastore_client
-    filters = [("updated_at", "=", expected["updated_at"])]
+    filters = [
+        ("updated_at", "=", expected["updated_at"])
+    ]
     query = client.query(kind=DATASTORE_KIND, filters=filters)
     query_iter = query.fetch()
 
@@ -31,4 +33,4 @@ def step_impl(context):
     result = dict(list(query_iter)[0])
 
     # assert
-    assert result == expected
+    assert result == expected, "Resulting Datastore data does not match expected data"
