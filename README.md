@@ -332,7 +332,7 @@ make test-unit
 ```
 
 
-To run the **behave tests** which uses the [Datastore emulator](#setup-datastore-emulator), you will need to:
+To run the **behave tests** which uses the Datastore emulator, you will need to:
 1. Connect to the running Datastore Emulator, by following [Setup Datastore Emulator](#setup-datastore-emulator).
 
 2. Run the following to start the tests:
