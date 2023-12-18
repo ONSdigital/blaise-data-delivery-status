@@ -43,5 +43,6 @@ def get_batch(batch_name):
         print(f"EL'S DEBUG: entity: {entity}")
         batch.append(entity['dd_filename'])
 
+    print(f"EL'S DEBUG: batch: {batch}")
     print(f"EL'S DEBUG: jsonify(batch): {jsonify(batch)}")
     return jsonify(batch), 200
