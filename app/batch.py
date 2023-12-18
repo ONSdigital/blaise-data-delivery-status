@@ -29,7 +29,7 @@ def get_batch(batch_name):
     key = current_app.datastore_client.key(DATASTORE_KIND, batch_name)
     print(f"EL'S DEBUG: key: {key}")
 
-    foo = key.dd_filename
+    foo = key.get('dd_filename')
     print(f"EL'S DEBUG: foo???? : {foo}")
 
     query = current_app.datastore_client.get(key)
