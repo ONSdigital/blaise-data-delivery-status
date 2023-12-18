@@ -27,16 +27,21 @@ def get_batch(batch_name):
     print(f"EL'S DEBUG: Called get_batch()")
     print(f"EL'S DEBUG: batch_name: {batch_name}")
 
-    key = current_app.datastore_client.key(DATASTORE_KIND, batch_name)
-    print(f"EL'S DEBUG: key: {key}")
-
-    query = current_app.datastore_client.get(key)
+    batch = []
+    query = current_app.datastore_client.query(kind=DATASTORE_KIND)
     print(f"EL'S DEBUG: query: {query}")
 
-    batch = list(query.items())
-    print(f"EL'S DEBUG: batch: {batch}")
+    query.add_filter('batch', '=', batch_name)
+    result = list(query.fetch())
+    print(f"EL'S DEBUG: result: {result}")
 
-    if len(batch) == 0:
+    print(f"EL'S DEBUG: len(result): {len(result)}")
+    if len(result) == 0:
         return api_error("Batch does not exist", 404)
 
+    for entity in result:
+        print(f"EL'S DEBUG: entity: {entity}")
+        batch.append(entity['dd_filename'])
+
+    print(f"EL'S DEBUG: jsonify(batch): {jsonify(batch)}")
     return jsonify(batch), 200
