@@ -39,7 +39,7 @@ def get_batch(batch_name):
     if len(result) == 0:
         return api_error("Batch does not exist", 404)
 
-    for x in result:
+    for x in result[1]:
         print(f"EL'S DEBUG: x: {x}")
         batch.append(x)
 
