@@ -11,17 +11,13 @@ def get_bactches():
     batch = []
     query = current_app.datastore_client.query(kind=DATASTORE_KIND)
     result = list(query.fetch())
-    print(f"EL'S DEBUG: result: {result}")
 
     if len(result) == 0:
         print("No result is returned")
-    else:
-        for entity in result:
-            if 'batch' in entity:
-                batch.append(entity['batch'])
+        jsonify(batch), 204
 
-    foo = jsonify(batch), 200
-    print(f"EL'S DEBUG: jsonify(batch): {foo}")
+    for entity in result:
+        batch.append(entity['batch'])
 
     return jsonify(batch), 200
 
