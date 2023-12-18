@@ -21,13 +21,10 @@ def get_batch(batch_name):
     print(f"EL'S DEBUG: Called get_batch()")
     batch = []
     for key in current_app.redis_client.sscan_iter(f"batch:{batch_name}"):
-        print(f"EL'S DEBUG: key: {key}")
         batch.append(json.loads(current_app.redis_client.get(key.decode("utf-8"))))
 
     if len(batch) == 0:
         return api_error("Batch does not exist", 404)
 
-    foo = jsonify(batch), 200
-    print(f"EL'S DEBUG: foo: {foo}")
-
+    print(f"EL'S DEBUG: batch: {batch}")
     return jsonify(batch), 200
