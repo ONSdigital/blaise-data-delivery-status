@@ -11,20 +11,23 @@ batch = Blueprint("batch", __name__, url_prefix="/v1/batch")
 def get_batches():
     batch = []
     for key in current_app.redis_client.scan_iter("batch:*"):
-        print(f"EL'S DEBUG: key: {key}")
         batch.append(key.decode("utf-8").replace("batch:", "", 1))
 
-    foo = jsonify(batch), 200
-    print(f"EL'S DEBUG: foo: {foo}")
     return jsonify(batch), 200
 
 
 @batch.route("/<batch_name>", methods=["GET"])
 def get_batch(batch_name):
+    print(f"EL'S DEBUG: Called get_batch()")
     batch = []
     for key in current_app.redis_client.sscan_iter(f"batch:{batch_name}"):
+        print(f"EL'S DEBUG: key: {key}")
         batch.append(json.loads(current_app.redis_client.get(key.decode("utf-8"))))
 
     if len(batch) == 0:
         return api_error("Batch does not exist", 404)
+
+    foo = jsonify(batch), 200
+    print(f"EL'S DEBUG: foo: {foo}")
+
     return jsonify(batch), 200
