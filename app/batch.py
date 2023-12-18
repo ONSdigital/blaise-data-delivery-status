@@ -8,14 +8,8 @@ batch = Blueprint("batch", __name__, url_prefix="/v1/batch")
 
 @batch.route("", methods=["GET"])
 def get_bactches():
-    print("EL'S DEBUG: Do print statements work?")
-
     batch = []
-
-    print(f"EL'S DEBUG: current_app.datastore_client: {current_app.datastore_client}")
     query = current_app.datastore_client.query(kind=DATASTORE_KIND)
-    print(f"EL'S DEBUG: query: {query}")
-
     result = list(query.fetch())
     print(f"EL'S DEBUG: result: {result}")
 
