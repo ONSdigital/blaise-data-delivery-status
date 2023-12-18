@@ -39,9 +39,9 @@ def get_batch(batch_name):
     if len(result) == 0:
         return api_error("Batch does not exist", 404)
 
-    for entity in result:
-        print(f"EL'S DEBUG: entity: {entity}")
-        batch.append(entity['dd_filename'])
+    for x in result:
+        print(f"EL'S DEBUG: x: {x}")
+        batch.append(x)
 
     print(f"EL'S DEBUG: batch: {batch}")
     print(f"EL'S DEBUG: jsonify(batch): {jsonify(batch)}")
