@@ -28,10 +28,10 @@ def get_batch(batch_name):
     print(f"EL'S DEBUG: batch_name: {batch_name}")
 
     batch = []
-    query = current_app.datastore_client.query(kind=DATASTORE_KIND)
+    filters = [('batch', '=', batch_name)]
+    query = current_app.datastore_client.query(kind=DATASTORE_KIND, filters=filters)
     print(f"EL'S DEBUG: query: {query}")
 
-    query.add_filter('batch', '=', batch_name)
     result = list(query.fetch())
     print(f"EL'S DEBUG: result: {result}")
 
