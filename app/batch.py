@@ -15,9 +15,10 @@ def get_bactches():
 
     if len(result) == 0:
         print("No result is returned")
-        print("EL'S DEBUG: No result is returned")
     else:
-        batch.extend(result)
+        for entity in result:
+            if 'batch' in entity:
+                batch.append(entity['batch'])
 
     foo = jsonify(batch), 200
     print(f"EL'S DEBUG: jsonify(batch): {foo}")
