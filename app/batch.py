@@ -24,11 +24,20 @@ def get_batches():
 
 @batch.route("/<batch_name>", methods=["GET"])
 def get_batch(batch_name):
+    print(f"EL'S DEBUG: Called get_batch()")
+
     key = current_app.datastore_client.key(DATASTORE_KIND, batch_name)
+    print(f"EL'S DEBUG: key: {key}")
+
     query = current_app.datastore_client.get(key)
+    print(f"EL'S DEBUG: query: {query}")
+
     batch = list(query.items())
+    print(f"EL'S DEBUG: batch: {batch}")
 
+    print(f"EL'S DEBUG: len(batch): {len(batch)}")
     if len(batch) == 0:
-        return api_error("Batch does not exist", 404)    
+        return api_error("Batch does not exist", 404)
 
+    print(f"EL'S DEBUG: jsonify(batch): {jsonify(batch)}")
     return jsonify(batch), 200
