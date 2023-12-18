@@ -11,6 +11,7 @@ batch = Blueprint("batch", __name__, url_prefix="/v1/batch")
 def get_batches():
     batch = []
     for key in current_app.redis_client.scan_iter("batch:*"):
+        print(f"EL'S DEBUG: key: {key}")
         batch.append(key.decode("utf-8").replace("batch:", "", 1))
 
     foo = jsonify(batch), 200
