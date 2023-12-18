@@ -28,10 +28,10 @@ def get_batch(batch_name):
     print(f"EL'S DEBUG: batch_name: {batch_name}")
 
     batch = []
-    filters = [('batch', '=', batch_name)]
-    query = current_app.datastore_client.query(kind=DATASTORE_KIND, filters=filters)
+    query = current_app.datastore_client.query(kind=DATASTORE_KIND)
     print(f"EL'S DEBUG: query: {query}")
 
+    query.add_filter('batch', '=', batch_name)
     result = list(query.fetch())
     print(f"EL'S DEBUG: result: {result}")
     # I need result but without the <Entity('data-delivery-state', 'dd_LMS2309_GK1_13122023_155648.zip')
