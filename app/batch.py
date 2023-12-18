@@ -25,12 +25,10 @@ def get_batches():
 @batch.route("/<batch_name>", methods=["GET"])
 def get_batch(batch_name):
     print(f"EL'S DEBUG: Called get_batch()")
+    print(f"EL'S DEBUG: batch_name: {batch_name}")
 
     key = current_app.datastore_client.key(DATASTORE_KIND, batch_name)
     print(f"EL'S DEBUG: key: {key}")
-
-    foo = key.get('dd_filename')
-    print(f"EL'S DEBUG: foo???? : {foo}")
 
     query = current_app.datastore_client.get(key)
     print(f"EL'S DEBUG: query: {query}")
