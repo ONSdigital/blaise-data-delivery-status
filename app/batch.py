@@ -36,9 +36,7 @@ def get_batch(batch_name):
     batch = list(query.items())
     print(f"EL'S DEBUG: batch: {batch}")
 
-    print(f"EL'S DEBUG: len(batch): {len(batch)}")
     if len(batch) == 0:
         return api_error("Batch does not exist", 404)
 
-    print(f"EL'S DEBUG: jsonify(batch): {jsonify(batch)}")
     return jsonify(batch), 200
