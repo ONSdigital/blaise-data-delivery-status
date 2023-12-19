@@ -12,10 +12,6 @@ def get_batches():
     query = current_app.datastore_client.query(kind=DATASTORE_KIND)
     result = list(query.fetch())
 
-    if len(result) == 0:
-        print("No result is returned")
-        jsonify(batch), 204
-
     for entity in result:
         batch.append(entity['batch'])
 
