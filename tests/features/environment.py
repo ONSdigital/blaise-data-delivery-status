@@ -1,7 +1,8 @@
 from google.cloud import datastore
 from behave import fixture, use_fixture
 from client.blaise_dds import DATASTORE_KIND
-
+from datetime import datetime
+import pytz
 from app.app import app
 
 
@@ -12,6 +13,7 @@ def flaskr_client(context, *args, **kwargs):
     app.datastore_client = datastore.Client()
     context.datastore_client = app.datastore_client
 
+    context.time = datetime.now(pytz.utc).replace(microsecond=0).isoformat()
     yield context.client
 
 
@@ -24,7 +26,5 @@ def after_scenario(context, _scenario):
     query_results = list(query.fetch())
     context.datastore_client.delete_multi(query_results)
 
-    # TODO: Continue to use freezegun or use another alternative - or even remove the frozen time entirely
-    # NOTE: freezegun seems to work with Google Datastore when the time is very recent, i.e. present time or a few hours later
     if context.freezer:
         context.freezer.stop()
