@@ -29,14 +29,12 @@ def step_impl(context):
     expected["updated_at"] = datetime.now(pytz.utc).replace(microsecond=0).isoformat()
 
     client = context.datastore_client
-    filters = [
-        ("updated_at", "=", expected["updated_at"])
-    ]
-    query = client.query(kind=DATASTORE_KIND, filters=filters)
-    query_iter = query.fetch()
+    query = client.query(kind=DATASTORE_KIND)
+    query.add_filter("updated_at", "=", expected["updated_at"])
+    query_results = list(query.fetch())
 
     # act
-    result = dict(list(query_iter)[0])
+    result = dict(list(query_results)[0]) if query_results else None
 
     # assert
     assert result == expected, "Resulting Datastore data does not match expected data"
