@@ -77,7 +77,7 @@ def update_state_record(dd_filename):
     if error_info:
         state_record["error_info"] = error_info
     current_app.datastore_client.put(state_record)
-    
+
     return state_record
 
 
