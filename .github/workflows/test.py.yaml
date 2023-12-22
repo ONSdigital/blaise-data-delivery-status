@@ -34,6 +34,12 @@ jobs:
       #    run test suite and output coverage file   
       #----------------------------------------------
     - name: Test with behave
+      env:
+          DATASTORE_DATASET: ons-blaise-ci
+          DATASTORE_EMULATOR_HOST: localhost:8081
+          DATASTORE_EMULATOR_HOST_PATH: localhost:8081/datastore
+          DATASTORE_HOST: http://localhost:8081
+          DATASTORE_PROJECT_ID: project-test
       run: poetry run python -m coverage run --source='tests/features' -m behave tests/features
     - name: Output coverage report
       run: poetry run python -m coverage xml
