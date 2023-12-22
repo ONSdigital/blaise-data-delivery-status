@@ -9,6 +9,7 @@ from client.blaise_dds import DATASTORE_KIND
 
 @given("Datastore contains")
 def step_impl(context):
+    print("STEP 1:", context.time)
     data = json.loads(context.text)
     if len(data) == 0:
         return None
@@ -19,6 +20,7 @@ def step_impl(context):
         )
         record_entity.update(item)
         record_entity["updated_at"] = context.time
+        print("STEP 1:", context.time)
         context.datastore_client.put(record_entity)
 
 
@@ -30,12 +32,14 @@ def step_impl(context):
 
     client = context.datastore_client
     query = client.query(kind=DATASTORE_KIND)
-    query.add_filter("updated_at", "=", expected["updated_at"])
+    #query.add_filter("updated_at", "=", expected["updated_at"])
     query_results = list(query.fetch())
 
     # act
     result = dict(list(query_results)[0]) if query_results else None
 
+    print("EXPECTED: ", expected)
+    print("RESULT: ", result)
     # assert
     assert result == expected, "Resulting Datastore data does not match expected data"
 

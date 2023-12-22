@@ -20,6 +20,7 @@ def api_error(message, status_code=400):
 
 
 def updated_at():
+    print("STEP 3: UPDATED_AT function", datetime.now(pytz.utc).replace(microsecond=0).isoformat())
     return datetime.now(pytz.utc).replace(microsecond=0).isoformat()
 
 
