@@ -25,7 +25,7 @@ def step_impl(context):
     # arrange
     expected = json.loads(context.text)
     expected["updated_at"] = context.time
-    
+
     context.datastore_client.wait_for_record_to_be_available(expected["dd_filename"])
     client = context.datastore_client
     query = client.query(kind=DATASTORE_KIND)
@@ -49,3 +49,16 @@ def step_impl(context):
     result = list(query_results) if query_results else []
     # assert
     assert len(result) == 0, "Resulting Datastore data does not match expected data"
+
+
+@given('the Datastore set "{batchId}" contains')
+def step_impl(context, batchId):
+    expectedFileNames = context.text
+
+    client = context.datastore_client
+    query = client.query(kind=DATASTORE_KIND)
+    query.add_filter("batch", "=", batchId)
+    query_results = list(query.fetch())
+
+    for i in range(0, len(query_results)):
+        assert query_results[i]["dd_filename"] in expectedFileNames
