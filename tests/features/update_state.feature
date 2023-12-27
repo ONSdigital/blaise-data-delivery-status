@@ -143,3 +143,131 @@ Feature: Update state records
             """
             []
             """
+
+    Scenario: I cannot update a state record if the state is unchanged
+
+        Given Datastore contains
+            """
+            [
+            {
+                "state": "started",
+                "dd_filename": "dd_filename.txt",
+                "batch": "10032021_1130"
+            }
+            ]
+            """
+        And the current time is set
+        When I PATCH to "/v1/state/dd_filename.txt" with the payload
+          """
+          {
+            "state": "started"
+          }
+          """
+        Then Datastore should contain
+          """
+            {
+                "state": "started",
+                "dd_filename": "dd_filename.txt",
+                "batch": "10032021_1130"
+            }
+          """
+        Then the response code should be "400"
+        And the response should be
+          """
+          {
+            "error": "State is unchanged"
+          }
+          """
+
+    Scenario: I cannot update a state record with an empty payload
+
+        Given Datastore contains
+            """
+            [
+            {
+                "state": "started",
+                "dd_filename": "dd_filename.txt",
+                "batch": "10032021_1130"
+            }
+            ]
+            """
+        And the current time is set
+        When I PATCH to "/v1/state/dd_filename.txt" with the payload
+          """
+          {}
+          """
+        Then Datastore should contain
+          """
+            {
+                "state": "started",
+                "dd_filename": "dd_filename.txt",
+                "batch": "10032021_1130"
+            }
+          """
+        Then the response code should be "400"
+        And the response should be
+          """
+          {
+            "error": "Request did not include 'state'"
+          }
+          """
+
+    Scenario: I cannot update a state record if the record does not exist
+
+        Given Datastore contains
+          """
+          []
+          """
+        And the current time is set
+        When I PATCH to "/v1/state/dd_filename.txt" with the payload
+          """
+          {
+            "state": "in_arc"
+          }
+          """
+        Then Datastore should not contain
+          """
+          []
+          """
+        Then the response code should be "404"
+        And the response should be
+          """
+          {
+            "error": "State record does not exist"
+          }
+          """
+
+    Scenario: State must be valid
+
+        Given Datastore contains
+            """
+            [
+            {
+                "state": "starting",
+                "dd_filename": "dd_filename.txt",
+                "batch": "10032021_1130"
+            }
+            ]
+            """
+        And the current time is set
+        When I PATCH to "/v1/state/dd_filename.txt" with the payload
+          """
+          {
+            "state": "finished"
+          }
+          """
+        Then Datastore should contain
+          """
+            {
+                "state": "starting",
+                "dd_filename": "dd_filename.txt",
+                "batch": "10032021_1130"
+            }
+          """
+        Then the response code should be "400"
+        And the response should be
+          """
+          {
+            "error": "State 'finished' is invalid, valid states are [inactive, started, generated, in_staging, encrypted, in_nifi_bucket, nifi_notified, in_arc, errored]"
+          }
+          """
