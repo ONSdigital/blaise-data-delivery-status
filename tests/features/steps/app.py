@@ -55,13 +55,16 @@ def step_impl(context):
 @then('the response list should be')
 def step_impl(context):
     context_entities_list = json.loads(context.text)
-    print("Context list: " + str(context_entities_list))
     for i in range(0, len(context_entities_list)):
         context_entities_list[i]["updated_at"] = context.time
-    print("Context list: " + str(context_entities_list))
 
     assert context.response == context_entities_list, f"Response {context.response} did not match expected value: {context.text}"
 
+@then('the batch list should be')
+def step_impl(context):
+    context_list = json.loads(context.text)
+
+    assert context.response == context_list, f"Response {context.response} did not match expected value: {context.text}"
 
 @then('the response code should be "{status_code}"')
 def step_impl(context, status_code):
