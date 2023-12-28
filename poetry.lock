@@ -306,25 +306,6 @@ toml = {version = "*", optional = true, markers = "extra == \"toml\""}
 toml = ["toml"]
 
 [[package]]
-name = "fakeredis"
-version = "1.10.2"
-description = "Fake implementation of redis API for testing purposes."
-optional = false
-python-versions = ">=3.7,<4.0"
-files = [
-    {file = "fakeredis-1.10.2-py3-none-any.whl", hash = "sha256:99916a280d76dd452ed168538bdbe871adcb2140316b5174db5718cb2fd47ad1"},
-    {file = "fakeredis-1.10.2.tar.gz", hash = "sha256:001e36864eb9e19fce6414081245e7ae5c9a363a898fedc17911b1e680ba2d08"},
-]
-
-[package.dependencies]
-redis = "<4.5"
-sortedcontainers = ">=2.4.0,<3.0.0"
-
-[package.extras]
-aioredis = ["aioredis (>=2.0.1,<3.0.0)"]
-lua = ["lupa (>=1.13,<2.0)"]
-
-[[package]]
 name = "flake8"
 version = "3.9.2"
 description = "the modular source code checker: pep8 pyflakes and co"
@@ -998,20 +979,6 @@ files = [
 ]
 
 [[package]]
-name = "redis"
-version = "3.5.3"
-description = "Python client for Redis key-value store"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
-files = [
-    {file = "redis-3.5.3-py2.py3-none-any.whl", hash = "sha256:432b788c4530cfe16d8d943a09d40ca6c16149727e4afe8c2c9d5580c59d9f24"},
-    {file = "redis-3.5.3.tar.gz", hash = "sha256:0e7e0cfca8660dea8b7d5cd8c4f6c5e29e11f31158c0b0ae91a397f00e5a05a2"},
-]
-
-[package.extras]
-hiredis = ["hiredis (>=0.1.3)"]
-
-[[package]]
 name = "requests"
 version = "2.29.0"
 description = "Python HTTP for Humans."
@@ -1090,17 +1057,6 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 files = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
-]
-
-[[package]]
-name = "sortedcontainers"
-version = "2.4.0"
-description = "Sorted Containers -- Sorted List, Sorted Dict, Sorted Set"
-optional = false
-python-versions = "*"
-files = [
-    {file = "sortedcontainers-2.4.0-py2.py3-none-any.whl", hash = "sha256:a163dcaede0f1c021485e957a39245190e74249897e2ae4b2aa38595db237ee0"},
-    {file = "sortedcontainers-2.4.0.tar.gz", hash = "sha256:25caa5a06cc30b6b83d11423433f65d1f9d76c4c6a0c90e3379eaa43b9bfdb88"},
 ]
 
 [[package]]
@@ -1187,4 +1143,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.9"
-content-hash = "7ac101b6415aef3ab932fefabd78f39b3f648757f0d8e12e6e4608da0acf3013"
+content-hash = "2c364097ba29389a784519d450a0b3f7895adf1054487ab6f71f770dfa954e82"

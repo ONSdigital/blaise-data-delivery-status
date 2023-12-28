@@ -1,6 +1,3 @@
-import os
-
-import redis
 from google.cloud import datastore
 from flask import Flask, jsonify
 from werkzeug.exceptions import BadRequest

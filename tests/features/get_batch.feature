@@ -18,7 +18,7 @@ Feature: Get batch details
             }
             ]
             """
-   And the Datastore set "10032021_1130" contains
+    And the Datastore set "10032021_1130" contains
             """
             [
               "dd_filename.txt",

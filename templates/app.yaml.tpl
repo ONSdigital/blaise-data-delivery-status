@@ -1,10 +1,6 @@
 service: data-delivery-status
 runtime: python39
 
-env_variables:
-  REDIS_HOST: _REDIS_HOST
-  REDIS_PORT: _REDIS_PORT
-
 vpc_access_connector:
   name: projects/_PROJECT_ID/locations/europe-west2/connectors/vpcconnect
 

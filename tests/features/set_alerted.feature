@@ -25,7 +25,7 @@ Feature: I can mark a state record as alerted
             "state": "starting",
             "dd_filename": "dd_filename.txt",
             "batch": "10032021_1130",
-             "alerted": true
+            "alerted": true
         }
       """
     Then the response code should be "200"

@@ -51,8 +51,6 @@ def flaskr_client(context, *args, **kwargs):
     app.datastore_client = CustomDatastoreClient(project='test-project')
     context.datastore_client = app.datastore_client
 
-    context.max_retries = 5
-    context.retry_wait_in_seconds = 0.2
     context.time = datetime.now(pytz.utc).replace(microsecond=0).isoformat()
     yield context.client
 
@@ -65,5 +63,5 @@ def after_scenario(context, _scenario):
     context.datastore_client.delete_multi(query_results)
     context.datastore_client.wait_for_datastore_to_be_empty()
 
-    if context.freezer:
+    if hasattr(context, 'freezer'):
         context.freezer.stop()

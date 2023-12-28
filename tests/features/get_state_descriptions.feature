@@ -1,7 +1,6 @@
 Feature: Get state descriptions
   Scenario: I can get the state keys and descriptions
 
-    Given the current time is set
     When I GET "/v1/state/descriptions"
     Then the response code should be "200"
     And the response should be
