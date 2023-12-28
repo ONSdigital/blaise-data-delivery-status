@@ -229,3 +229,113 @@ Content-Type: application/json
   }
 ]
 ```
+## Local Development
+#### Prerequisites
+- [GCP Cloud SDK](https://cloud.google.com/sdk/docs/install-sdk)
+- [Python](https://www.python.org/downloads/)
+- [Poetry](https://python-poetry.org/docs/)
+
+
+This repository uses **Python 3.9** and **Poetry**.
+
+1.  [Clone the repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) using your preferred method.
+
+2.  Connect to a Datastore instance, check and follow [Google Cloud Datastore](#google-cloud-datastore).
+
+3.  Ensure you are using **Python 3.9** and install the dependencies by running:
+    ```shell
+    poetry install
+    ```
+
+5.  To start the Flask app, run:
+    ```shell
+    poetry run python main.py
+    ```
+
+6. Once the app is running, it should now be able to receive and respond to requests.
+
+## Google Cloud Datastore
+This repository uses Google Cloud Datastore, a fully-managed NoSQL database. When setting up the service locally, you have two options:
+  1.  [Configure service to connect to a real Datastore instance on GCP.](#setup-cloud-sdk)
+  2.  [Install Datastore Emulator and setup a local Datastore instance.](#setup-datastore-emulator)
+
+### Setup Cloud SDK
+Ensure you have installed ```gcloud``` CLI.
+
+1. Authenticate with GCP:
+    ```shell
+    gcloud auth login
+    ```
+
+2.  Set the GCP project that hosts your Datastore instance:
+    ```shell
+    gcloud config set project ons-blaise-v2-dev-<sandbox-suffix>
+    ```
+
+3. Google Cloud Client Libraries typically require authentication to function properly, see [documentation](https://googleapis.dev/python/google-api-core/latest/auth.html).
+For local development, the easiest way to authenticate is by running:
+    ```shell
+    gcloud auth application-default login
+    ```
+
+### Setup Datastore Emulator
+Google provides a Datastore Emulator that allows you to host a local Datastore instance.
+To configure the Datastore client library to use this local Datastore instance, we will need an ```.env``` file with the following variables:
+ 
+| Environment Variable | Description |
+|--|--|
+| DATASTORE_DATASET | The ID of your Google Cloud Datastore dataset. It's used by the client to identify which dataset to interact with. |
+| DATASTORE_EMULATOR_HOST | This is the address of the Datastore emulator if you're using one for local development or testing. The emulator simulates the real Datastore service. The value is typically in the format of `hostname:port` |
+| DATASTORE_EMULATOR_HOST_PATH | The full path to the Datastore emulator, including the `/datastore` endpoint. It's used by the client to send requests to the emulator. |
+| DATASTORE_HOST | The base URL of the Datastore service. If you're using an emulator, it should point to the emulator's address. If you're interacting with the real Datastore service, it should default to `https://datastore.googleapis.com`. |
+| DATASTORE_PROJECT_ID | The ID of your Google Cloud project. It's used by the client to identify which project's Datastore to interact with. |
+
+Example .env file:
+```shell
+DATASTORE_DATASET=test-dataset
+DATASTORE_EMULATOR_HOST=localhost:8081
+DATASTORE_EMULATOR_HOST_PATH=localhost:8081/datastore
+DATASTORE_HOST=http://localhost:8081
+DATASTORE_PROJECT_ID=test-project
+```
+
+1.  Once you've created a ```.env``` file, install the Datastore Emulator by running:
+    ```shell
+    make install-datastore-emulator
+    ```
+
+2.  Start running the Datastore Emulator by running the following:
+    ```shell
+    gcloud beta emulators datastore start --no-store-on-disk
+    ```
+    **NB:** Running this command instead of ```make start-datastore-emulator``` allows you to easily terminate the local Datastore Emulator. For more info, see the [docs](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
+
+### Makefile
+
+A `Makefile` is included with some useful tasks to help with development.
+
+Running `make help` will list all available commands.
+
+### Run Tests
+
+You will need the [Google Cloud Datastore Emulator](#google-cloud-datastore) to run the full test suite.
+
+To run the **full test suite**, including the Datastore behave tests:
+```shell
+make test
+```
+  
+
+To run the **unit tests** which do not use the Datastore emulator:
+```shell
+make test-unit
+```
+
+
+To run the **behave tests** which uses the Datastore emulator, you will need to:
+1. Connect to the running Datastore Emulator, by following [Setup Datastore Emulator](#setup-datastore-emulator).
+
+2. Run the following to start the tests:
+    ```shell
+    make test-behave
+    ```
