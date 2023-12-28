@@ -1,7 +1,8 @@
 import json
 
-from google.cloud import datastore
 from behave import given, then
+from google.cloud import datastore
+
 from client.blaise_dds import DATASTORE_KIND
 
 
@@ -60,7 +61,7 @@ def step_impl(context, batchId):
     query.add_filter("batch", "=", batchId)
     query_results = list(query.fetch())
 
-    if(len(query_results) == 0 and len(expectedFileNames) == 0):
+    if len(query_results) == 0 and len(expectedFileNames) == 0:
         return True
 
     for i in range(0, len(query_results)):

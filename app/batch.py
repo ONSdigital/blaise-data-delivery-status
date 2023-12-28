@@ -1,7 +1,7 @@
-from client.blaise_dds.kind import DATASTORE_KIND
 from flask import Blueprint, current_app, jsonify
 
 from app.utils import api_error
+from client.blaise_dds.kind import DATASTORE_KIND
 
 batch = Blueprint("batch", __name__, url_prefix="/v1/batch")
 
@@ -13,7 +13,7 @@ def get_batches():
     result = list(query.fetch())
 
     for entity in result:
-        batch.append(entity['batch'])
+        batch.append(entity["batch"])
 
     return jsonify(batch), 200
 
@@ -22,7 +22,7 @@ def get_batches():
 def get_batch(batch_name):
     batch = []
     query = current_app.datastore_client.query(kind=DATASTORE_KIND)
-    query.add_filter('batch', '=', batch_name)
+    query.add_filter("batch", "=", batch_name)
     result = list(query.fetch())
 
     if len(result) == 0:
