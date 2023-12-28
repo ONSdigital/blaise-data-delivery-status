@@ -1,10 +1,11 @@
 from flask import Blueprint, current_app, request
 from google.cloud import datastore
 
-from app.utils import api_error, state_error, updated_at, get_datastore_entity
+from app.utils import api_error, get_datastore_entity, state_error, updated_at
 from client.blaise_dds import DATASTORE_KIND, STATES, state_is_valid
 
 state = Blueprint("state", __name__, url_prefix="/v1/state")
+
 
 @state.route("/<dd_filename>", methods=["GET"])
 def get_state_record(dd_filename):
@@ -20,7 +21,7 @@ def create_state_record(dd_filename):
     state = state_request.get("state")
     batch = state_request.get("batch")
     error_info = state_request.get("error_info")
-    
+
     if state is None or batch is None:
         return api_error("Request did not include 'state' or 'batch'")
     if not state_is_valid(state):
@@ -29,7 +30,7 @@ def create_state_record(dd_filename):
         return api_error("You can only provide 'error_info' if the state is 'errored'")
     if get_datastore_entity(current_app.datastore_client, dd_filename) is not None:
         return api_error("Resource already exists", 409)
-    
+
     state_record = {
         "state": state,
         "updated_at": updated_at(),
@@ -39,7 +40,7 @@ def create_state_record(dd_filename):
     }
     if error_info:
         state_record["error_info"] = error_info
-    
+
     record_entity = datastore.Entity(
         current_app.datastore_client.key(DATASTORE_KIND, dd_filename)
     )

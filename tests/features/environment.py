@@ -1,11 +1,12 @@
-from google.cloud import datastore
-from behave import fixture, use_fixture
-from client.blaise_dds import DATASTORE_KIND
-from datetime import datetime
-from app.app import app
-
 import time
+from datetime import datetime
+
 import pytz
+from behave import fixture, use_fixture
+from google.cloud import datastore
+
+from app.app import app
+from client.blaise_dds import DATASTORE_KIND
 
 
 class CustomDatastoreClient(datastore.Client):
@@ -30,7 +31,7 @@ class CustomDatastoreClient(datastore.Client):
                 raise Exception(
                     "Failed to clear datastore. Try restarting the DataStore emulator."
                 )
-            
+
     def _entity_is_not_available(self, key):
         return self.get(key) is None
 
@@ -44,18 +45,21 @@ class CustomDatastoreClient(datastore.Client):
             if retries < 1:
                 raise Exception(f"Record {key} never became available.")
 
+
 @fixture
 def flaskr_client(context, *args, **kwargs):
     app.testing = True
     context.client = app.test_client()
-    app.datastore_client = CustomDatastoreClient(project='test-project')
+    app.datastore_client = CustomDatastoreClient(project="test-project")
     context.datastore_client = app.datastore_client
 
     context.time = datetime.now(pytz.utc).replace(microsecond=0).isoformat()
     yield context.client
 
+
 def before_scenario(context, _scenario):
     use_fixture(flaskr_client, context)
+
 
 def after_scenario(context, _scenario):
     query = context.datastore_client.query(kind=DATASTORE_KIND)
@@ -63,5 +67,5 @@ def after_scenario(context, _scenario):
     context.datastore_client.delete_multi(query_results)
     context.datastore_client.wait_for_datastore_to_be_empty()
 
-    if hasattr(context, 'freezer'):
+    if hasattr(context, "freezer"):
         context.freezer.stop()
