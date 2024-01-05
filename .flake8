@@ -3,3 +3,5 @@ per-file-ignores =
     tests/features/steps/*: F811
 exclude =
     tests,venv,.venv,__pycache__,.git
+max-line-length =
+    120
