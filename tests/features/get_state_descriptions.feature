@@ -3,7 +3,7 @@ Feature: Get state descriptions
 
     When I GET "/v1/state/descriptions"
     Then the response code should be "200"
-    And the response should be:
+    And the response should be
       """
       {
         "inactive": "The data delivery instrument has no active survey days, a data delivery file will not be generated.",
