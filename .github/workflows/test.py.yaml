@@ -22,10 +22,8 @@ jobs:
         run: |
           pip install poetry
           poetry install
-      - name: Run black
-        run: poetry run black --check .
-      - name: Run isort
-        run: poetry run isort --check .
+      - name: Run lint
+        run: make lint
         
   codecov:
     runs-on: ubuntu-latest
