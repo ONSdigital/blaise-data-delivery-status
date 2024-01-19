@@ -13,7 +13,8 @@ def get_batches():
     result = list(query.fetch())
 
     for entity in result:
-        batch.append(entity["batch"])
+        if entity["batch"] not in batch:
+            batch.append(entity["batch"])
 
     return jsonify(batch), 200
 
