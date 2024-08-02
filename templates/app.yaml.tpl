@@ -1,4 +1,4 @@
-service: data-delivery-status
+service: dds
 runtime: python39
 
 vpc_access_connector:
