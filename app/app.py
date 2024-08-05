@@ -16,7 +16,7 @@ def init_datastore(app):
     app.datastore_client = datastore.Client()
 
 
-@app.route("/data-delivery-status/<version>/health")
+@app.route("/dds/<version>/health")
 def health_check(version):
     print(f"Checking {version} health by checking connectivity")
     try:
