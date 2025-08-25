@@ -6,7 +6,7 @@ from behave import fixture, use_fixture
 from google.cloud import datastore
 
 from app.app import app
-from client.blaise_dds import DATASTORE_KIND
+from app.models import DATASTORE_KIND
 
 
 class CustomDatastoreClient(datastore.Client):

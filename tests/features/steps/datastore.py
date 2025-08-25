@@ -3,7 +3,7 @@ import json
 from behave import given, then
 from google.cloud import datastore
 
-from client.blaise_dds import DATASTORE_KIND
+from app.models import DATASTORE_KIND
 
 
 @given("Datastore contains")

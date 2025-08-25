@@ -1,22 +1,17 @@
 # Blaise Data Delivery Status
 
-[![codecov](https://codecov.io/gh/ONSdigital/blaise-data-delivery-status/branch/main/graph/badge.svg)](https://codecov.io/gh/ONSdigital/blaise-data-delivery-status)
-[![CI status](https://github.com/ONSdigital/blaise-data-delivery-status/workflows/Test%20coverage%20report/badge.svg)](https://github.com/ONSdigital/blaise-data-delivery-status/workflows/Test%20coverage%20report/badge.svg)
-<img src="https://img.shields.io/github/release/ONSdigital/blaise-data-delivery-status.svg?style=flat-square" alt="Nisra Case Mover release verison">
-[![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/ONSdigital/blaise-data-delivery-status.svg)](https://github.com/ONSdigital/blaise-data-delivery-status/pulls)
-[![Github last commit](https://img.shields.io/github/last-commit/ONSdigital/blaise-data-delivery-status.svg)](https://github.com/ONSdigital/blaise-data-delivery-status/commits)
-[![Github contributors](https://img.shields.io/github/contributors/ONSdigital/blaise-data-delivery-status.svg)](https://github.com/ONSdigital/blaise-data-delivery-status/graphs/contributors)
-
-A simple API that can be used to track the status of a data delivery process
+A simple API that can be used to track the status of a data delivery process.
 
 ## Batch Names
 
 The Data Delivery Dashboard gets the time and date from the batch name. As a result, the batch name format is important.
+
 Batch names are formatted as follows:
 
 `TLA_DDMMYYYY_HHMMSS`
 
 Where:
+
 - `TLA` is the three-letter acronym for the survey
 - `DDMMYYYY` is the date in the format day, month, year
 - `HHMMSS` is the time in the format hour, minute, second
@@ -26,7 +21,7 @@ Where:
 **Note**: The latest state we can currently get is `in_arc` we do not call this `finished` because there is still
 some processing that needs to happen in NiFi to copy the files to the final destination. At present, we have no way of
 knowing if this has happened. If a data delivery file is in the `in_arc` state we can assume that we need to contact
-CATD for more insight if any issues are reported.
+the ingest team for more insight if any issues are reported.
 
 **Note**: If we do not receive a receipt within 30 minutes of a message being in the `nifi_notified` state, we expect
 any consumers of this API to flag it as an issue.
@@ -149,7 +144,7 @@ curl localhost:5008/v1/state/dd_filename.txt \
  -X PATCH \
   -H "Content-type: application/json" \
   -d '{
-    "alerted": "true"
+    "alerted": true
   }'
 ```
 
@@ -236,13 +231,13 @@ Content-Type: application/json
 - [Poetry](https://python-poetry.org/docs/)
 
 
-This repository uses **Python 3.9** and **Poetry**.
+This repository uses **Python 3.13** and **Poetry**.
 
 1.  [Clone the repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) using your preferred method.
 
 2.  Connect to a Datastore instance, check and follow [Google Cloud Datastore](#google-cloud-datastore).
 
-3.  Ensure you are using **Python 3.9** and install the dependencies by running:
+3.  Ensure you are using **Python 3.13** and install the dependencies by running:
     ```shell
     poetry install
     ```
@@ -324,13 +319,11 @@ To run the **full test suite**, including the Datastore behave tests:
 ```shell
 make test
 ```
-  
 
 To run the **unit tests** which do not use the Datastore emulator:
 ```shell
 make test-unit
 ```
-
 
 To run the **behave tests** which uses the Datastore emulator, you will need to:
 1. Connect to the running Datastore Emulator, by following [Setup Datastore Emulator](#setup-datastore-emulator).

@@ -1,3 +1,5 @@
+DATASTORE_KIND = "data-delivery-status"
+
 STATES = {
     "inactive": "The data delivery instrument has no active survey days, a data delivery file will not be generated.",  # noqa: E501
     "started": "The data delivery process has found an instrument with active survey days",  # noqa: E501

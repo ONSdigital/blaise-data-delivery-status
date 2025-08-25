@@ -3,7 +3,7 @@ from datetime import datetime
 import pytz
 from flask import jsonify
 
-from client.blaise_dds import DATASTORE_KIND, STATES
+from app.models import DATASTORE_KIND, STATES
 
 
 def get_datastore_entity(datastore_client, dd_filename):
