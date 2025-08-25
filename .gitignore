@@ -8,3 +8,4 @@ app.yaml
 /coverage.xml
 /.coverage
 /.env
+.python-version

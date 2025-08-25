@@ -35,8 +35,8 @@ Feature: Get list of all batches
       And the batch list should be
         """
         [
-          "10032022_8888",
-          "10032021_1130"
+          "10032021_1130",
+          "10032022_8888"
         ]
         """
 
@@ -108,4 +108,3 @@ Feature: Get list of all batches
           "10032022_8888"
         ]
         """
-

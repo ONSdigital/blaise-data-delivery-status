@@ -1,8 +1,8 @@
 from flask import Blueprint, current_app, request
 from google.cloud import datastore
 
+from app.models import DATASTORE_KIND, STATES, state_is_valid
 from app.utils import api_error, get_datastore_entity, state_error, updated_at
-from client.blaise_dds import DATASTORE_KIND, STATES, state_is_valid
 
 state = Blueprint("state", __name__, url_prefix="/v1/state")
 
@@ -89,7 +89,7 @@ def set_alerted(dd_filename):
     if alerted is None:
         return api_error("Request did not include 'alerted'")
 
-    if type(alerted) is not bool:
+    if not isinstance(alerted, bool):
         return api_error("Alerted must be a boolean")
 
     state_record = get_datastore_entity(current_app.datastore_client, dd_filename)
