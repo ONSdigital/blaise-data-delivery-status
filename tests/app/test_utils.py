@@ -1,8 +1,10 @@
+from unittest.mock import MagicMock
+
 import pytest
 from flask import Flask
-from unittest.mock import MagicMock
+
 from app import utils
-from app.models import STATES, DATASTORE_KIND
+from app.models import DATASTORE_KIND, STATES
 
 
 def test_get_datastore_entity_success():
