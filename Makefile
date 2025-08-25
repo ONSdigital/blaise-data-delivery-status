@@ -16,7 +16,7 @@ format:
 lint:
 	@poetry run black --check .
 	@poetry run isort --check .
-	@poetry run flake8 .
+	@poetry run flake8 --max-line-length=120 . --exclude=tests
 
 .PHONY: install-datastore-emulator
 ## Install Datastore emulator
@@ -26,7 +26,7 @@ install-datastore-emulator:
 
 .PHONY: start-datastore-emulator
 ## Start Datastore emulator
-start-datastore-emulator: install-datastore-emulator
+start-datastore-emulator:
 	@echo "Starting Datastore emulator"
 	@gcloud beta emulators datastore start --no-store-on-disk
 

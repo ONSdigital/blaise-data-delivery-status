@@ -225,7 +225,7 @@ Feature: Create state records
       []
       """
     And the current time is set
-    When I POST to "/v1/state/dd_filename.txt" with the payload:
+    When I POST to "/v1/state/dd_filename.txt" with the payload
       """
       {
         "state": "invalid",
