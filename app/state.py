@@ -1,4 +1,7 @@
-from flask import Blueprint, current_app, request
+import html
+import re
+
+from flask import Blueprint, current_app, jsonify, request
 from google.cloud import datastore
 
 from app.models import DATASTORE_KIND, STATES, state_is_valid
@@ -6,40 +9,56 @@ from app.utils import api_error, get_datastore_entity, state_error, updated_at
 
 state = Blueprint("state", __name__, url_prefix="/v1/state")
 
+FILENAME_REGEX = re.compile(r"^[A-Za-z0-9._-]{1,200}$")
+
+
+def validate_filename(dd_filename: str) -> bool:
+    return FILENAME_REGEX.match(dd_filename) is not None
+
+
+def sanitize_error_info(value: str) -> str:
+    return html.escape(value)
+
 
 @state.route("/<dd_filename>", methods=["GET"])
 def get_state_record(dd_filename):
+    if not validate_filename(dd_filename):
+        return api_error("Invalid dd_filename", 400)
+
     state_record = get_datastore_entity(current_app.datastore_client, dd_filename)
     if state_record is None:
         return api_error("State record does not exist", 404)
-    return state_record
+    return jsonify(state_record)
 
 
 @state.route("/<dd_filename>", methods=["POST"])
-def create_state_record(dd_filename):
-    state_request = request.json
-    state = state_request.get("state")
+def create_state_record(dd_filename):  # noqa: CCR001
+    if not validate_filename(dd_filename):
+        return api_error("Invalid dd_filename", 400)
+
+    state_request = request.json or {}
+    state_value = state_request.get("state")
     batch = state_request.get("batch")
     error_info = state_request.get("error_info")
 
-    if state is None or batch is None:
+    if state_value is None or batch is None:
         return api_error("Request did not include 'state' or 'batch'")
-    if not state_is_valid(state):
-        return state_error(state)
-    if state != "errored" and error_info is not None:
+    if not state_is_valid(state_value):
+        return state_error(state_value)
+    if state_value != "errored" and error_info is not None:
         return api_error("You can only provide 'error_info' if the state is 'errored'")
     if get_datastore_entity(current_app.datastore_client, dd_filename) is not None:
         return api_error("Resource already exists", 409)
 
     state_record = {
-        "state": state,
+        "state": state_value,
         "updated_at": updated_at(),
         "dd_filename": dd_filename,
         "batch": batch,
         "alerted": False,
     }
     if error_info:
-        state_record["error_info"] = error_info
+        state_record["error_info"] = sanitize_error_info(error_info)
 
     record_entity = datastore.Entity(
         current_app.datastore_client.key(DATASTORE_KIND, dd_filename)
@@ -48,43 +67,51 @@ def create_state_record(dd_filename):
 
     current_app.datastore_client.put(record_entity)
 
-    return state_record, 201
+    return jsonify(state_record), 201
 
 
 @state.route("/<dd_filename>", methods=["PATCH"])
-def update_state_record(dd_filename):
-    state_request = request.json
-    state = state_request.get("state")
+def update_state_record(dd_filename):  # noqa: CCR001
+    if not validate_filename(dd_filename):
+        return api_error("Invalid dd_filename", 400)
+
+    state_request = request.json or {}
+    state_value = state_request.get("state")
     error_info = state_request.get("error_info")
-    if state is None:
+
+    if state_value is None:
         return api_error("Request did not include 'state'")
 
-    if not state_is_valid(state):
-        return state_error(state)
+    if not state_is_valid(state_value):
+        return state_error(state_value)
 
-    if state != "errored" and error_info is not None:
+    if state_value != "errored" and error_info is not None:
         return api_error("You can only provide 'error_info' if the state is 'errored'")
 
     state_record = get_datastore_entity(current_app.datastore_client, dd_filename)
     if state_record is None:
         return api_error("State record does not exist", 404)
 
-    if state_record["state"] == state:
+    if state_record["state"] == state_value:
         return api_error("State is unchanged", 400)
 
     state_record["updated_at"] = updated_at()
-    state_record["state"] = state
+    state_record["state"] = state_value
     state_record["alerted"] = False
     if error_info:
-        state_record["error_info"] = error_info
+        state_record["error_info"] = sanitize_error_info(error_info)
+
     current_app.datastore_client.put(state_record)
 
-    return state_record
+    return jsonify(state_record)
 
 
 @state.route("/<dd_filename>/alerted", methods=["PATCH"])
 def set_alerted(dd_filename):
-    state_request = request.json
+    if not validate_filename(dd_filename):
+        return api_error("Invalid dd_filename", 400)
+
+    state_request = request.json or {}
     alerted = state_request.get("alerted")
     if alerted is None:
         return api_error("Request did not include 'alerted'")
@@ -99,9 +126,9 @@ def set_alerted(dd_filename):
     state_record["alerted"] = alerted
     current_app.datastore_client.put(state_record)
 
-    return state_record
+    return jsonify(state_record)
 
 
 @state.route("/descriptions", methods=["GET"])
 def get_state_descriptions():
-    return STATES
+    return jsonify(STATES)

@@ -1,4 +1,7 @@
-name: Test coverage report 
+permissions:
+  contents: read
+
+name: Run checks
 
 on:
   pull_request:

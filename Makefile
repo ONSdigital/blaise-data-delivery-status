@@ -46,5 +46,3 @@ test-behave:
 .PHONY: test
 ## Run full test suite
 test: test-unit test-behave
-	@echo "Running full test suite"
-	@echo "Please ensure that the Datastore Emulator is running in a separate terminal window"
