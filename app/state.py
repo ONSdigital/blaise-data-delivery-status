@@ -1,6 +1,7 @@
-import re
 import html
-from flask import Blueprint, current_app, request, jsonify
+import re
+
+from flask import Blueprint, current_app, jsonify, request
 from google.cloud import datastore
 
 from app.models import DATASTORE_KIND, STATES, state_is_valid
@@ -31,7 +32,7 @@ def get_state_record(dd_filename):
 
 
 @state.route("/<dd_filename>", methods=["POST"])
-def create_state_record(dd_filename):
+def create_state_record(dd_filename):  # noqa: CCR001
     if not validate_filename(dd_filename):
         return api_error("Invalid dd_filename", 400)
 
@@ -70,7 +71,7 @@ def create_state_record(dd_filename):
 
 
 @state.route("/<dd_filename>", methods=["PATCH"])
-def update_state_record(dd_filename):
+def update_state_record(dd_filename):  # noqa: CCR001
     if not validate_filename(dd_filename):
         return api_error("Invalid dd_filename", 400)
 
