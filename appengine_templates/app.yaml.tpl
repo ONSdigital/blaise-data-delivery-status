@@ -2,7 +2,7 @@ service: dds
 runtime: python313
 
 vpc_access_connector:
-  name: projects/_PROJECT_ID/locations/europe-west2/connectors/vpcconnect
+  name: _VPC_CONNECTOR
 
 basic_scaling:
   idle_timeout: 60s
